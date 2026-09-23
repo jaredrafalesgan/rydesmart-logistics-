@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 300" preserveAspectRatio="xMinYMax meet">
+  <defs>
+    <linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34508f"/><stop offset="1" stop-color="#2a4582"/></linearGradient>
+    <linearGradient id="near" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e3670"/><stop offset="1" stop-color="#172c5f"/></linearGradient>
+    <linearGradient id="haze" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6a7fb0" stop-opacity="0"/><stop offset="1" stop-color="#6a7fb0" stop-opacity=".32"/></linearGradient>
+  </defs>
+  <path fill="url(#far)" d="M0 170C120 150 200 118 300 128S430 94 520 90 650 130 740 128 880 70 980 78 1110 120 1200 118 1350 140 1440 150 1560 166 1600 170V300H0Z"/>
+  <path fill="url(#near)" d="M0 222C90 206 170 182 260 189S400 160 480 165 600 200 700 196 840 168 930 172 1080 206 1180 200 1330 178 1420 186 1560 212 1600 222V300H0Z"/>
+  <rect y="200" width="1600" height="100" fill="url(#haze)"/>
+</svg>

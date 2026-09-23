@@ -1,14 +1,17 @@
-"""Build a GoHighLevel-ready snippet of the site.
+"""Build single-file versions of the site.
 
-GoHighLevel's "Custom JS/HTML" element drops code into the middle of its own page,
-so the snippet can't carry <html>/<head>/<body> and its CSS must not leak into (or
-be overridden by) the builder's styles. This script:
-  - wraps the page body in <div id="rs-site">
-  - prefixes every class and id with "rs-" and scopes every CSS rule to #rs-site
-  - inlines the CSS, JS and (downsized) logos so it's one paste
+1. gohighlevel/rydesmart-ghl.html — a snippet for a GoHighLevel "Custom JS/HTML"
+   element. That element drops code into the middle of GHL's own page, so the snippet
+   has no <html>/<head>/<body>, and its CSS must not leak into (or be overridden by)
+   the builder's styles. So it:
+     - wraps the page body in <div id="rs-site">
+     - prefixes every class and id with "rs-" and scopes every CSS rule to #rs-site
+     - inlines the CSS, JS, scene art and (downsized) logos; GSAP is loaded from
+       jsDelivr by js/main.js at runtime to keep the paste small
+2. dist/rydesmart-logistics.html — the full page with every asset (GSAP included)
+   inlined, for opening directly or uploading anywhere.
 
-Run from the repo root:  python3 tools/build_ghl.py
-Output: gohighlevel/rydesmart-ghl.html
+Run from the repo root:  python3 tools/build.py   (needs Pillow)
 """
 import base64
 import io
@@ -19,6 +22,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "gohighlevel" / "rydesmart-ghl.html"
+STANDALONE = ROOT / "dist" / "rydesmart-logistics.html"
 P = "rs-"
 SCOPE = "#rs-site"
 
@@ -74,22 +78,21 @@ def prefix_html(html):
 
 
 def prefix_js(js):
-    # Class names and selectors inside string literals ("..." only in main.js).
-    def fix(m):
-        s = m.group(1)
-        if s.startswith(("aria-", "mailto:", "?", "&", "Thanks", "Freight", "Open", "Close", "\\n", "IntersectionObserver")) or " - " in s:
-            return m.group(0)
-        if s in ("true", "false", "scroll", "click", "submit", "a", "[data-quote-form]", "[data-year]"):
-            return m.group(0)
-        if s.startswith("."):
-            return '"' + prefix_classes(s) + '"'
-        if re.fullmatch(r"[a-z][\w-]*", s):  # bare class name for classList
-            return '"' + P + s + '"'
-        return m.group(0)
-    js = re.sub(r'"([^"\n]*)"', fix, js)
-    js = js.replace("(function () {", '(function () {\n  var root = document.getElementById("rs-site");\n  if (!root) return;', 1)
-    js = js.replace("document.querySelector(", "root.querySelector(").replace("document.querySelectorAll(", "root.querySelectorAll(")
-    return js
+    # main.js builds every class/id selector from P (see sel()/cls() there).
+    assert 'var P = "";' in js
+    return js.replace('var P = "";', 'var P = "' + P + '";', 1)
+
+
+def inline_css_urls(css):
+    """Swap url("../assets/...svg") references for data URIs."""
+    def repl(m):
+        data = (ROOT / m.group(1)).read_bytes()
+        return 'url("data:image/svg+xml;base64,' + base64.b64encode(data).decode() + '")'
+    return re.sub(r'url\("\.\./(assets/[^"]+\.svg)"\)', repl, css)
+
+
+def file_uri(path):
+    return "data:image/png;base64," + base64.b64encode((ROOT / path).read_bytes()).decode()
 
 
 def data_uri(path, width):
@@ -100,17 +103,16 @@ def data_uri(path, width):
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode()
 
 
-def main():
-    page = (ROOT / "index.html").read_text()
+def build_ghl(page):
     body = page.split("<body>", 1)[1].split("</body>", 1)[0]
-    body = body.replace('<script src="js/main.js"></script>', "").strip()
+    body = re.sub(r'\s*<script src="[^"]+"></script>', "", body).strip()
     body = prefix_html(body)
     body = body.replace('"assets/logo.png"', '"' + data_uri(ROOT / "assets/logo.png", 520) + '"')
     body = body.replace('"assets/logo-light.png"', '"' + data_uri(ROOT / "assets/logo-light.png", 520) + '"')
     body = body.replace('width="722" height="139"', 'width="520" height="100"')
 
     fonts = re.search(r'<link href="https://fonts.googleapis.com[^>]+>', page).group(0)
-    css = scope_css((ROOT / "css/styles.css").read_text())
+    css = inline_css_urls(scope_css((ROOT / "css/styles.css").read_text()))
     js = prefix_js((ROOT / "js/main.js").read_text())
 
     snippet = (
@@ -120,9 +122,30 @@ def main():
         + "<script>\n" + js + "</script>\n"
     )
     assert "assets/" not in snippet
-    OUT.parent.mkdir(exist_ok=True)
-    OUT.write_text(snippet)
-    print(OUT.relative_to(ROOT), f"{len(snippet) // 1024} KB")
+    return snippet
+
+
+def build_standalone(page):
+    css = inline_css_urls((ROOT / "css/styles.css").read_text())
+    page = page.replace('<link rel="stylesheet" href="css/styles.css">', "<style>\n" + css + "</style>")
+
+    def script(m):
+        code = (ROOT / m.group(1)).read_text()
+        assert "</script" not in code
+        return "<script>\n" + code + "\n</script>"
+    page = re.sub(r'<script src="([^"]+)"></script>', script, page)
+    for img in ("assets/logo.png", "assets/logo-light.png", "assets/favicon.png"):
+        page = page.replace('"' + img + '"', '"' + file_uri(img) + '"')
+    assert "assets/" not in page
+    return page
+
+
+def main():
+    page = (ROOT / "index.html").read_text()
+    for out, text in ((OUT, build_ghl(page)), (STANDALONE, build_standalone(page))):
+        out.parent.mkdir(exist_ok=True)
+        out.write_text(text)
+        print(out.relative_to(ROOT), f"{len(text) // 1024} KB")
 
 
 if __name__ == "__main__":

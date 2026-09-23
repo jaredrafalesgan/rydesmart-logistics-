@@ -174,33 +174,186 @@
       </div>
     </section>
 
-    <!-- ===== Why choose us ===== -->
-    <section class="section section--dark" id="why">
-      <div class="container why">
-        <div class="why__copy">
-          <p class="eyebrow eyebrow--light">Why RydeSmart</p>
-          <h2>Driven by safety.<br><span class="accent">Focused on delivery.</span></h2>
-          <p>Our motto isn't just on the logo. Every driver, truck and dispatcher at RydeSmart is held to one standard: get the freight there safely, on schedule and in the same condition it left.</p>
-          <a href="#quote" class="btn btn--primary"><span>Work With Us</span></a>
+    <!-- ===== Why RydeSmart: scroll-driven truck journey =====
+         Without JS (or with reduced motion) this renders as a static section:
+         intro + four panels, with the truck parked on the road below. -->
+    <section class="journey" id="why" aria-labelledby="why-title">
+      <div class="journey__stage">
+        <div class="journey__scene" aria-hidden="true">
+          <div class="journey__sky"></div>
+          <div class="journey__layer journey__clouds"></div>
+          <div class="journey__layer journey__far"><div class="journey__skyline"></div></div>
+          <div class="journey__layer journey__roadside"></div>
+          <div class="journey__road"><div class="journey__lanes"></div></div>
+          <div class="journey__route">
+            <span class="journey__route-fill"></span>
+            <span class="journey__route-point journey__route-point--start">Pickup</span>
+            <span class="journey__route-point journey__route-point--end">Delivery</span>
+          </div>
+          <div class="journey__truck">
+            <div class="journey__beam"></div>
+            <div class="journey__pin">
+              <span class="journey__pin-ring"></span>
+              <svg viewBox="0 0 24 32"><path d="M12 0C5.4 0 0 5.2 0 11.7 0 20.4 12 32 12 32s12-11.6 12-20.3C24 5.2 18.6 0 12 0Z" fill="#1f6dff"/><circle cx="12" cy="11.5" r="4.6" fill="#fff"/></svg>
+            </div>
+          <svg class="truck" viewBox="0 0 900 200" focusable="false" aria-hidden="true">
+              <defs>
+                <linearGradient id="tkVan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6f7f9"/><stop offset=".55" stop-color="#e8ebf0"/><stop offset="1" stop-color="#cbd1da"/></linearGradient>
+                <linearGradient id="tkPaint" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b4c93"/><stop offset=".16" stop-color="#17326f"/><stop offset=".6" stop-color="#0f2353"/><stop offset="1" stop-color="#0a1839"/></linearGradient>
+                <linearGradient id="tkExt" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0a1737"/><stop offset="1" stop-color="#14295c"/></linearGradient>
+                <linearGradient id="tkGlass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#43567e"/><stop offset=".42" stop-color="#0f1a31"/><stop offset="1" stop-color="#1c2a47"/></linearGradient>
+                <linearGradient id="tkChrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f5f7fa"/><stop offset=".38" stop-color="#a7b0bd"/><stop offset=".58" stop-color="#e8ecf1"/><stop offset="1" stop-color="#7a8494"/></linearGradient>
+                <linearGradient id="tkSkirt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dde2e8"/><stop offset="1" stop-color="#b3bbc7"/></linearGradient>
+                <linearGradient id="tkFairing" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#132a5f"/><stop offset="1" stop-color="#0a1632"/></linearGradient>
+                <linearGradient id="tkSheenFill" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".26"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+                <radialGradient id="tkRim" cx=".46" cy=".42" r=".62"><stop offset="0" stop-color="#f4f6f9"/><stop offset=".62" stop-color="#c2c9d2"/><stop offset="1" stop-color="#8993a0"/></radialGradient>
+                <radialGradient id="tkRimSteel" cx=".46" cy=".42" r=".62"><stop offset="0" stop-color="#dfe3e8"/><stop offset=".7" stop-color="#b1b8c2"/><stop offset="1" stop-color="#7f8895"/></radialGradient>
+                <radialGradient id="tkShadow"><stop offset="0" stop-color="#000" stop-opacity=".55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+                <radialGradient id="tkLamp"><stop offset="0" stop-color="#fffdf2"/><stop offset=".35" stop-color="#fff1c8" stop-opacity=".7"/><stop offset="1" stop-color="#ffe6a6" stop-opacity="0"/></radialGradient>
+                <radialGradient id="tkTail"><stop offset="0" stop-color="#ff3b4e" stop-opacity=".8"/><stop offset="1" stop-color="#ff3b4e" stop-opacity="0"/></radialGradient>
+                <pattern id="tkTape" width="24" height="4" patternUnits="userSpaceOnUse"><rect width="12" height="4" fill="#c8102e"/><rect x="12" width="12" height="4" fill="#f1f1f1"/></pattern>
+                <rect id="tkBox" x="12" y="26" width="636" height="111" rx="2"/>
+                <path id="tkCab" d="M668 150V40Q668 31 677 30L742 29C770 29 790 40 800 54L818 97C835 99 858 103 876 110Q885 113 886 122L887 148L884 158L869 158A25 25 0 0 0 823 158L815 158L815 150Z"/>
+                <clipPath id="tkClip"><use href="#tkBox"/><use href="#tkCab"/></clipPath>
+                <g id="tkWheelAlu">
+                  <circle r="20.5" fill="#131519"/>
+                  <circle r="18.6" fill="none" stroke="#24272d" stroke-width="2.2"/>
+                  <circle r="13.4" fill="#0b0d10"/>
+                  <circle r="12.5" fill="url(#tkRim)"/>
+                  <circle r="12.5" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width=".8"/>
+                  <g fill="#2f343c"><ellipse cx="9" rx="2.5" ry="1.8" transform="rotate(0)"/><ellipse cx="9" rx="2.5" ry="1.8" transform="rotate(72)"/><ellipse cx="9" rx="2.5" ry="1.8" transform="rotate(144)"/><ellipse cx="9" rx="2.5" ry="1.8" transform="rotate(216)"/><ellipse cx="9" rx="2.5" ry="1.8" transform="rotate(288)"/></g>
+                  <circle r="6.2" fill="#8d96a3"/>
+                  <g fill="#5b6370"><circle cx="4.6" r=".75" transform="rotate(0)"/><circle cx="4.6" r=".75" transform="rotate(36)"/><circle cx="4.6" r=".75" transform="rotate(72)"/><circle cx="4.6" r=".75" transform="rotate(108)"/><circle cx="4.6" r=".75" transform="rotate(144)"/><circle cx="4.6" r=".75" transform="rotate(180)"/><circle cx="4.6" r=".75" transform="rotate(216)"/><circle cx="4.6" r=".75" transform="rotate(252)"/><circle cx="4.6" r=".75" transform="rotate(288)"/><circle cx="4.6" r=".75" transform="rotate(324)"/></g>
+                  <circle r="3.3" fill="#e2e6eb"/>
+                </g>
+                <g id="tkWheelSteel">
+                  <circle r="20.5" fill="#131519"/>
+                  <circle r="18.6" fill="none" stroke="#24272d" stroke-width="2.2"/>
+                  <circle r="13.4" fill="#0b0d10"/>
+                  <circle r="12.5" fill="url(#tkRimSteel)"/>
+                  <circle r="12.5" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width=".8"/>
+                  <g fill="#2f343c"><ellipse cx="9" rx="2.5" ry="1.8" transform="rotate(0)"/><ellipse cx="9" rx="2.5" ry="1.8" transform="rotate(72)"/><ellipse cx="9" rx="2.5" ry="1.8" transform="rotate(144)"/><ellipse cx="9" rx="2.5" ry="1.8" transform="rotate(216)"/><ellipse cx="9" rx="2.5" ry="1.8" transform="rotate(288)"/></g>
+                  <circle r="6.2" fill="#8d96a3"/>
+                  <g fill="#5b6370"><circle cx="4.6" r=".75" transform="rotate(0)"/><circle cx="4.6" r=".75" transform="rotate(36)"/><circle cx="4.6" r=".75" transform="rotate(72)"/><circle cx="4.6" r=".75" transform="rotate(108)"/><circle cx="4.6" r=".75" transform="rotate(144)"/><circle cx="4.6" r=".75" transform="rotate(180)"/><circle cx="4.6" r=".75" transform="rotate(216)"/><circle cx="4.6" r=".75" transform="rotate(252)"/><circle cx="4.6" r=".75" transform="rotate(288)"/><circle cx="4.6" r=".75" transform="rotate(324)"/></g>
+                  <circle r="3.3" fill="#e2e6eb"/>
+                </g>
+              </defs>
+
+              <ellipse cx="452" cy="189" rx="452" ry="7" fill="url(#tkShadow)"/>
+              <g fill="#000" opacity=".5"><ellipse cx="62" cy="188.5" rx="24" ry="2.4"/><ellipse cx="112" cy="188.5" rx="24" ry="2.4"/><ellipse cx="590" cy="188.5" rx="24" ry="2.4"/><ellipse cx="640" cy="188.5" rx="24" ry="2.4"/><ellipse cx="846" cy="188.5" rx="24" ry="2.4"/></g>
+
+              <!-- running gear -->
+              <rect x="560" y="146" width="116" height="8" fill="#1a1d23"/>
+              <rect x="596" y="138" width="42" height="7" fill="#22262d"/>
+              <rect x="36" y="137" width="104" height="10" fill="#2a2f37"/>
+              <rect x="557" y="157" width="6" height="28" rx="1" fill="#0f1114"/>
+              <rect x="31" y="156" width="6" height="29" rx="1" fill="#0f1114"/>
+              <g transform="translate(62 167.5)"><g class="truck__wheel"><use href="#tkWheelSteel"/></g></g><g transform="translate(112 167.5)"><g class="truck__wheel"><use href="#tkWheelSteel"/></g></g><g transform="translate(590 167.5)"><g class="truck__wheel"><use href="#tkWheelAlu"/></g></g><g transform="translate(640 167.5)"><g class="truck__wheel"><use href="#tkWheelAlu"/></g></g><g transform="translate(846 167.5)"><g class="truck__wheel"><use href="#tkWheelAlu"/></g></g>
+              <path d="M564 168A26 26 0 0 1 590 142H640A26 26 0 0 1 666 168" fill="none" stroke="#121418" stroke-width="3.6"/>
+
+              <g class="truck__body">
+                <!-- 53' dry van -->
+                <use href="#tkBox" fill="url(#tkVan)"/>
+                <path d="M34 31V128 M56 31V128 M78 31V128 M100 31V128 M122 31V128 M144 31V128 M166 31V128 M188 31V128 M210 31V128 M232 31V128 M254 31V128 M276 31V128 M298 31V128 M320 31V128 M342 31V128 M364 31V128 M386 31V128 M408 31V128 M430 31V128 M452 31V128 M474 31V128 M496 31V128 M518 31V128 M540 31V128 M562 31V128 M584 31V128 M606 31V128 M628 31V128" stroke="#d6dbe3" stroke-width="1.5"/>
+                <path d="M35.3 31V128 M57.3 31V128 M79.3 31V128 M101.3 31V128 M123.3 31V128 M145.3 31V128 M167.3 31V128 M189.3 31V128 M211.3 31V128 M233.3 31V128 M255.3 31V128 M277.3 31V128 M299.3 31V128 M321.3 31V128 M343.3 31V128 M365.3 31V128 M387.3 31V128 M409.3 31V128 M431.3 31V128 M453.3 31V128 M475.3 31V128 M497.3 31V128 M519.3 31V128 M541.3 31V128 M563.3 31V128 M585.3 31V128 M607.3 31V128 M629.3 31V128" stroke="#fbfcfd" stroke-width=".8"/>
+                <rect x="12" y="26" width="636" height="5" fill="#d3d9e1"/>
+                <rect x="12" y="128" width="636" height="9" fill="#bac1cc"/>
+                <rect x="12" y="136" width="636" height="1.5" fill="#8a93a1"/>
+                <rect x="20" y="131.5" width="612" height="3" fill="url(#tkTape)"/>
+                <rect x="12" y="26" width="7" height="111" fill="#c0c7d1"/>
+                <g fill="#98a1ae"><rect x="19" y="40" width="3" height="7"/><rect x="19" y="78" width="3" height="7"/><rect x="19" y="112" width="3" height="7"/></g>
+                <rect x="642" y="26" width="6" height="111" fill="#cfd5dd"/>
+                <image href="assets/logo.png" x="238" y="64" width="184" height="35.4" preserveAspectRatio="xMidYMid meet" opacity=".96"/>
+                <g fill="#f2a32a"><rect x="637" y="27.5" width="5" height="2.6" rx=".8"/><rect x="328" y="27.5" width="5" height="2.6" rx=".8"/><rect x="328" y="129.5" width="5" height="2.6" rx=".8"/></g>
+                <rect x="13" y="27.5" width="4" height="2.6" rx=".8" fill="#c8102e"/>
+                <rect x="11" y="117" width="3.2" height="9" rx="1" fill="#b3122b"/>
+                <circle cx="12" cy="121.5" r="9" fill="url(#tkTail)"/>
+                <!-- underride guard, skirt, landing gear -->
+                <rect x="21" y="137" width="4" height="24" fill="#6c7584"/><rect x="41" y="137" width="4" height="24" fill="#6c7584"/>
+                <rect x="13" y="159" width="36" height="6" rx="1" fill="#7e8795"/><rect x="13" y="160.5" width="36" height="3" fill="url(#tkTape)"/>
+                <path d="M150 140H508V176H155Q150 176 150 171Z" fill="url(#tkSkirt)"/>
+                <rect x="150" y="140" width="358" height="1.6" fill="#8f98a6"/><rect x="150" y="174.4" width="358" height="1.6" fill="#8c95a3"/>
+                <rect x="519" y="137" width="6" height="38" fill="#3a3f47"/><rect x="513" y="175" width="18" height="3.2" rx="1" fill="#2a2e35"/>
+                <path d="M525 150l8 4" stroke="#3a3f47" stroke-width="1.6"/>
+
+                <!-- tractor: cab-to-trailer extender, sleeper cab, fairings -->
+                <path d="M648 36L668 34V150L648 147Z" fill="url(#tkExt)"/>
+                <use href="#tkCab" fill="url(#tkPaint)"/>
+                <path d="M672 150H815V172Q815 175 812 175H675Q672 175 672 172Z" fill="url(#tkFairing)"/>
+                <rect x="672" y="150" width="143" height="1.3" fill="#3a5696" opacity=".7"/>
+                <rect x="758" y="156" width="34" height="5" rx="1" fill="#04070e"/><rect x="758" y="156" width="34" height="1.4" fill="#9aa3af"/>
+                <rect x="758" y="165" width="34" height="5" rx="1" fill="#04070e"/><rect x="758" y="165" width="34" height="1.4" fill="#9aa3af"/>
+                <path d="M670 139H884" stroke="#cfd7e4" stroke-width="1.4" opacity=".8"/>
+                <path d="M744 30.5C770 30.5 789 41 799 54" stroke="#a9c1ff" stroke-opacity=".38" stroke-width="1.5" fill="none"/>
+                <path d="M819 98.5C838 100.5 860 104.5 876 111" stroke="#fff" stroke-opacity=".28" stroke-width="1.6" fill="none"/>
+                <path d="M672 60H742" stroke="#fff" stroke-opacity=".06" stroke-width="1"/>
+                <rect x="690" y="66" width="28" height="14" rx="3.5" fill="url(#tkGlass)"/>
+                <rect x="682" y="108" width="46" height="28" rx="3" fill="none" stroke="#050b1c" stroke-opacity=".55" stroke-width="1"/>
+                <rect x="719" y="120" width="6" height="2.2" rx="1" fill="url(#tkChrome)"/>
+                <path d="M747 56H797L811 96V150H747Z" fill="none" stroke="#060f2a" stroke-width="1.2"/>
+                <path d="M752 61H793L805 90H752Z" fill="url(#tkGlass)"/>
+                <path d="M800 54H804L822 97H818Z" fill="#0c1426"/>
+                <rect x="757" y="99" width="11" height="3" rx="1.5" fill="url(#tkChrome)"/>
+                <rect x="742" y="88" width="2.6" height="40" rx="1.3" fill="url(#tkChrome)"/>
+                <text x="760" y="124" fill="#fff" fill-opacity=".92" font-family="Saira, Arial, sans-serif" font-size="8.5" font-style="italic" font-weight="800">RYDE<tspan fill="#6fa0ff">SMART</tspan></text>
+                <text x="761.5" y="131" fill="#fff" fill-opacity=".75" font-family="Saira, Arial, sans-serif" font-size="4.4" font-weight="700" letter-spacing="1.6">LOGISTICS</text>
+                <g fill="#f2a32a"><rect x="784" y="37" width="3" height="2.2" rx=".8" transform="rotate(28 785 38)"/><rect x="792" y="45" width="3" height="2.2" rx=".8" transform="rotate(40 793 46)"/></g>
+                <!-- mirrors -->
+                <path d="M806 81L818 74" stroke="#171c25" stroke-width="2.4"/>
+                <rect x="816" y="60" width="7" height="27" rx="2" fill="#10151f" stroke="url(#tkChrome)" stroke-width=".9"/>
+                <path d="M858 107L864 100" stroke="#171c25" stroke-width="1.4"/><rect x="862" y="94" width="4.5" height="7.5" rx="1.2" fill="#10151f"/>
+                <!-- front: headlight, grille, bumper -->
+                <rect x="884" y="121" width="6.5" height="27" rx="1" fill="url(#tkChrome)"/>
+                <path d="M884 124.5h6.5M884 128h6.5M884 131.5h6.5M884 135h6.5M884 138.5h6.5M884 142h6.5M884 145.5h6.5" stroke="#555d69" stroke-width=".8"/>
+                <path d="M864 114L884 117Q887 120 886.5 127L866 125Z" fill="#cdd7e6"/>
+                <path d="M867 118.5L883 120.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+                <rect x="858" y="118" width="4" height="3" rx=".8" fill="#f2a32a"/>
+                <path d="M852 148H892Q896 148 896 152V160Q896 164 892 164H852Z" fill="url(#tkChrome)"/>
+                <rect x="852" y="164" width="40" height="4" rx="1" fill="#101216"/>
+                <circle cx="888" cy="156" r="1.9" fill="#e9eef6"/>
+
+                <g clip-path="url(#tkClip)"><g class="truck__sheen"><rect x="-140" y="0" width="120" height="200" fill="url(#tkSheenFill)" transform="skewX(-18)"/></g></g>
+                <circle class="truck__lamp" cx="886" cy="121.5" r="11" fill="url(#tkLamp)"/>
+              </g>
+            </svg>
+          </div>
+          <div class="journey__layer journey__verge"></div>
+          <div class="journey__fade"></div>
         </div>
-        <ul class="why__list">
-          <li>
-            <h3>Safety-First Drivers</h3>
-            <p>CDL professionals with clean records, ongoing safety training and strict hours-of-service compliance.</p>
-          </li>
-          <li>
-            <h3>Live Shipment Tracking</h3>
-            <p>ELD-equipped trucks with GPS updates, so you always know where your load is and when it will arrive.</p>
-          </li>
-          <li>
-            <h3>Fully Insured Cargo</h3>
-            <p>Comprehensive auto liability and cargo coverage on every load, with certificates available on request.</p>
-          </li>
-          <li>
-            <h3>One Point of Contact</h3>
-            <p>A dedicated dispatcher who knows your freight and answers the phone at any hour, day or night.</p>
-          </li>
-        </ul>
+
+        <div class="container journey__content">
+          <div class="journey__intro">
+            <p class="eyebrow eyebrow--light">Why RydeSmart</p>
+            <h2 id="why-title">Driven by safety.<br><span class="accent">Focused on delivery.</span></h2>
+            <div class="journey__lead">
+              <p>Our motto isn't just on the logo. Every driver, truck and dispatcher at RydeSmart is held to one standard: get the freight there safely, on schedule and in the same condition it left.</p>
+              <a href="#quote" class="btn btn--primary"><span>Work With Us</span></a>
+            </div>
+          </div>
+          <ol class="journey__panels">
+            <li class="journey__panel">
+              <p class="journey__label"><span>01</span> Safety</p>
+              <h3>Safety-First Drivers</h3>
+              <p>Experienced drivers focused on safe, reliable delivery.</p>
+            </li>
+            <li class="journey__panel">
+              <p class="journey__label"><span>02</span> Tracking</p>
+              <h3>Live Shipment Tracking</h3>
+              <p>Stay informed with real-time shipment visibility from pickup to delivery.</p>
+            </li>
+            <li class="journey__panel">
+              <p class="journey__label"><span>03</span> Protection</p>
+              <h3>Fully Insured Cargo</h3>
+              <p>Your freight is handled with protection and accountability from pickup to delivery.</p>
+            </li>
+            <li class="journey__panel">
+              <p class="journey__label"><span>04</span> Communication</p>
+              <h3>One Point of Contact</h3>
+              <p>Stay connected with a dedicated dispatch team throughout the journey.</p>
+            </li>
+          </ol>
+          <p class="journey__hint" aria-hidden="true">Scroll to follow the delivery <svg viewBox="0 0 24 24"><path d="M12 16.5 5 9.5l1.4-1.4 5.6 5.6 5.6-5.6L19 9.5z"/></svg></p>
+        </div>
       </div>
     </section>
 
@@ -258,6 +411,7 @@
 
     <!-- ===== Careers band ===== -->
     <section class="careers" id="careers">
+      <div class="careers__stripes" aria-hidden="true"></div>
       <div class="container careers__inner">
         <div>
           <p class="eyebrow eyebrow--light">Now Hiring CDL-A Drivers</p>
@@ -370,6 +524,8 @@
     <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1Z"/></svg>
   </a>
 
+  <script src="js/vendor/gsap.min.js"></script>
+  <script src="js/vendor/ScrollTrigger.min.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
