@@ -15,6 +15,18 @@
   function q(s, ctx) { return (ctx || root).querySelector(sel(s)); }
   function qa(s, ctx) { return Array.prototype.slice.call((ctx || root).querySelectorAll(sel(s))); }
 
+  // Page builders (GoHighLevel) put this inside their own section/row/column, which have a
+  // max width and padding. Stretch the site back out to the full window width.
+  if (root !== document) {
+    var fitWidth = function () {
+      root.style.marginLeft = "0px";
+      root.style.width = document.documentElement.clientWidth + "px";
+      root.style.marginLeft = -root.getBoundingClientRect().left + "px";
+    };
+    fitWidth();
+    window.addEventListener("resize", fitWidth);
+  }
+
   // Mobile navigation
   var toggle = q(".nav-toggle");
   var nav = q("#nav");

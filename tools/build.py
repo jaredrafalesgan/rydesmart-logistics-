@@ -113,6 +113,12 @@ def build_ghl(page):
 
     fonts = re.search(r'<link href="https://fonts.googleapis.com[^>]+>', page).group(0)
     css = inline_css_urls(scope_css((ROOT / "css/styles.css").read_text()))
+    # Break out of the builder's centred row so there are no white gaps at the sides
+    # (main.js then aligns it to the exact pixel); clip stops any sideways scroll.
+    css += (
+        SCOPE + " { position: relative; width: 100vw; max-width: none; margin-left: calc(50% - 50vw); margin-right: 0; }\n"
+        "body { overflow-x: clip; }\n"
+    )
     js = prefix_js((ROOT / "js/main.js").read_text())
 
     snippet = (

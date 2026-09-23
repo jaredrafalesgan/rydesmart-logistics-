@@ -68,5 +68,7 @@ After editing `index.html`, `css/` or `js/`, rebuild both with `python3 tools/bu
 
 - `gohighlevel/rydesmart-ghl.html` — paste-in snippet for a GoHighLevel **Custom JS/HTML** element.
   Classes and ids are prefixed with `rs-` and the CSS only applies inside `<div id="rs-site">`, so it
-  won't clash with the page builder. It loads GSAP from jsDelivr at runtime.
+  won't clash with the page builder. It loads GSAP from jsDelivr at runtime, and stretches itself to
+  the full window width even inside a builder's centred row. In GoHighLevel, also set the section's
+  top/bottom padding to 0 so there's no white strip above or below the site.
 - `dist/rydesmart-logistics.html` — the full page with every asset (GSAP included) inlined.
