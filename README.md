@@ -17,9 +17,11 @@ Open `index.html` in a browser, or host the folder on GitHub Pages
 - `js/main.js` — mobile menu, quote forms, scroll effects
 - `assets/` — logo variants (`logo.png`, white-text `logo-light.png` for dark backgrounds) and favicon
 
+## Contact info
+- Phone: (678) 315-8285
+- Email: Admin@rydesmartlogistics.com (quote forms and driver applications go here; set in `QUOTE_EMAIL` in `js/main.js`)
+
 ## Placeholder info to replace before going live
-- Phone: `(555) 123-4567` / `tel:+15551234567`
-- Emails: `dispatch@rydesmartlogistics.com`, `careers@rydesmartlogistics.com` (also `QUOTE_EMAIL` in `js/main.js`)
 - USDOT / MC numbers in the footer
 - Stats (98% on-time, 48 states, 1 hr quote response), office hours and service list — confirm they're accurate
 

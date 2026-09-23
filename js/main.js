@@ -1,7 +1,7 @@
 // RydeSmart Logistics — site interactions
 (function () {
-  // Where quote requests are sent. Replace with the real inbox (or a form service endpoint).
-  var QUOTE_EMAIL = "dispatch@rydesmartlogistics.com";
+  // Where quote requests are sent (swap for a form service endpoint to collect them directly).
+  var QUOTE_EMAIL = "Admin@rydesmartlogistics.com";
 
   // Mobile navigation
   var toggle = document.querySelector(".nav-toggle");
@@ -42,7 +42,7 @@
         "?subject=" + encodeURIComponent(subject) +
         "&body=" + encodeURIComponent(lines.join("\n"));
       var note = form.querySelector(".form-note");
-      if (note) note.textContent = "Thanks! Your email app should open with your request. Prefer to talk? Call (555) 123-4567.";
+      if (note) note.textContent = "Thanks! Your email app should open with your request. Prefer to talk? Call (678) 315-8285.";
     });
   });
 
