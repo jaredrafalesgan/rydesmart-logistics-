@@ -62,6 +62,207 @@
   var year = q("[data-year]");
   if (year) year.textContent = new Date().getFullYear();
 
+  // ---------- Testimonials carousel ----------
+  // A slow, endless conveyor: the track is translated every frame and wraps by one full
+  // set of cards (cloned to cover the screen), so there's never a visible jump. Hover,
+  // focus or the pause button ease it to a stop; drag/swipe, arrows, dots and arrow keys
+  // move it by hand. With reduced motion it never moves on its own.
+  (function reviewsCarousel() {
+    var wrap = q(".reviews");
+    if (!wrap) return;
+    var viewport = q(".reviews__viewport", wrap);
+    var track = q(".reviews__track", wrap);
+    var originals = qa(".review", track);
+    var count = originals.length;
+    if (!count) return;
+
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var playBtn = q(".reviews__play", wrap);
+    var cards = [], dots = [];
+    var step = 0, setW = 0, half = 0, centerX = 0;
+    var x = 0, speed = 0, fling = 0, active = -1;
+    var paused = false, hover = false, focused = false;
+    var drag = null, glide = null, raf = 0, last = 0, visible = true;
+
+    function baseSpeed() { return window.innerWidth < 700 ? 20 : 26; } // px per second
+    function wrapX(v) { return ((v % setW) - setW) % setW; }           // keep within (-setW, 0]
+
+    wrap.classList.add(cls("is-live"));
+
+    originals.forEach(function (_, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = cls("reviews__dot");
+      b.setAttribute("aria-label", "Show testimonial " + (i + 1) + " of " + count);
+      b.addEventListener("click", function () { goTo(i); });
+      q(".reviews__dots", wrap).appendChild(b);
+      dots.push(b);
+    });
+
+    function layout() {
+      var index = step ? (centerX - x) / step : 0;
+      qa(".is-clone", track).forEach(function (c) { track.removeChild(c); });
+      step = originals[0].offsetWidth + (parseFloat(getComputedStyle(track).columnGap) || 0);
+      setW = step * count;
+      var copies = Math.ceil((viewport.clientWidth + setW) / setW);
+      for (var k = 0; k < copies; k++) {
+        originals.forEach(function (o) {
+          var c = o.cloneNode(true);
+          c.classList.add(cls("is-clone"));
+          c.setAttribute("aria-hidden", "true");
+          track.appendChild(c);
+        });
+      }
+      cards = qa(".review", track).map(function (el) {
+        return { card: el.firstElementChild, mid: el.offsetLeft + el.offsetWidth / 2 };
+      });
+      half = viewport.clientWidth / 2;
+      centerX = half - originals[0].offsetWidth / 2; // track offset that centres card 0
+      x = centerX - index * step;
+      render();
+    }
+
+    function render() {
+      var rx = wrapX(x);
+      track.style.transform = "translate3d(" + rx.toFixed(2) + "px,0,0)";
+      // Cards ease up to full size/opacity as they reach the centre.
+      for (var i = 0; i < cards.length; i++) {
+        var d = Math.abs(rx + cards[i].mid - half);
+        if (d > half + step) continue;
+        var f = Math.min(1, d / (step * 1.15));
+        cards[i].card.style.transform = "scale(" + (1 - 0.05 * f).toFixed(4) + ")";
+        cards[i].card.style.opacity = (1 - 0.45 * f).toFixed(3);
+      }
+      var a = ((Math.round((centerX - rx) / step) % count) + count) % count;
+      if (a !== active) {
+        if (active > -1) dots[active].classList.remove(cls("is-active"));
+        dots[a].classList.add(cls("is-active"));
+        dots[a].setAttribute("aria-current", "true");
+        if (active > -1) dots[active].removeAttribute("aria-current");
+        active = a;
+      }
+    }
+
+    function glideTo(target) {
+      glide = { from: x, to: target, t0: performance.now(), dur: reduce.matches ? 1 : 750 };
+      fling = 0;
+      speed = 0;
+      start();
+    }
+    function shift(dir) { glideTo(centerX - (Math.round((centerX - x) / step) + dir) * step); }
+    function goTo(i) {
+      var cur = Math.round((centerX - x) / step);
+      var diff = ((i - cur) % count + count) % count;
+      if (diff > count / 2) diff -= count;
+      glideTo(centerX - (cur + diff) * step);
+    }
+
+    function frame(t) {
+      raf = requestAnimationFrame(frame);
+      var dt = Math.min(0.05, (t - (last || t)) / 1000);
+      last = t;
+      if (glide) {
+        var p = Math.max(0, Math.min(1, (t - glide.t0) / glide.dur));
+        x = glide.from + (glide.to - glide.from) * (1 - Math.pow(1 - p, 3));
+        if (p === 1) glide = null;
+      } else if (!drag) {
+        var stopped = paused || hover || focused || reduce.matches;
+        speed += ((stopped ? 0 : baseSpeed()) - speed) * Math.min(1, dt * 2.5); // soft start/stop
+        if (fling) {
+          x += fling * dt;
+          fling *= Math.pow(0.03, dt);
+          if (Math.abs(fling) < 5) fling = 0;
+        }
+        x -= speed * dt;
+      }
+      if (!glide) x = wrapX(x);
+      render();
+      // Nothing left to animate: stop the loop until something changes.
+      if (!glide && !drag && !fling && speed < 0.05 && (paused || hover || focused || reduce.matches)) stop();
+    }
+    function start() { if (!raf && visible) { last = 0; raf = requestAnimationFrame(frame); } }
+    function stop() { cancelAnimationFrame(raf); raf = 0; }
+
+    // Hover (mouse only) and keyboard focus pause; leaving resumes.
+    viewport.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") { hover = true; } });
+    viewport.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") { hover = false; start(); } });
+    wrap.addEventListener("focusin", function (e) { focused = e.target.matches(":focus-visible"); });
+    wrap.addEventListener("focusout", function (e) { if (!wrap.contains(e.relatedTarget)) { focused = false; start(); } });
+
+    // Drag / swipe. touch-action: pan-y leaves vertical page scrolling to the browser.
+    viewport.addEventListener("pointerdown", function (e) {
+      if (e.button !== 0) return;
+      drag = { id: e.pointerId, x0: e.clientX, last: e.clientX, t: e.timeStamp, v: 0, moved: false };
+      glide = null;
+      fling = 0;
+      start();
+    });
+    viewport.addEventListener("pointermove", function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      if (!drag.moved) {
+        if (Math.abs(e.clientX - drag.x0) < 6) return;
+        drag.moved = true;
+        drag.last = e.clientX;
+        viewport.setPointerCapture(drag.id);
+        wrap.classList.add(cls("is-dragging"));
+      }
+      var dx = e.clientX - drag.last;
+      var ms = Math.max(8, e.timeStamp - drag.t);
+      x += dx;
+      drag.v = 0.7 * (dx / ms * 1000) + 0.3 * drag.v;
+      drag.last = e.clientX;
+      drag.t = e.timeStamp;
+    });
+    function endDrag(e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      if (drag.moved) {
+        fling = Math.max(-1800, Math.min(1800, drag.v));
+        speed = 0;
+      }
+      wrap.classList.remove(cls("is-dragging"));
+      drag = null;
+      start();
+    }
+    viewport.addEventListener("pointerup", endDrag);
+    viewport.addEventListener("pointercancel", endDrag);
+
+    q(".reviews__prev", wrap).addEventListener("click", function () { shift(-1); });
+    q(".reviews__next", wrap).addEventListener("click", function () { shift(1); });
+    viewport.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") { e.preventDefault(); shift(-1); }
+      if (e.key === "ArrowRight") { e.preventDefault(); shift(1); }
+    });
+    playBtn.addEventListener("click", function () {
+      paused = !paused;
+      playBtn.setAttribute("aria-pressed", String(paused));
+      playBtn.setAttribute("aria-label", paused ? "Play testimonials" : "Pause testimonials");
+      start();
+    });
+
+    function motionPref() {
+      wrap.classList.toggle(cls("is-static"), reduce.matches);
+      start();
+    }
+    if (reduce.addEventListener) reduce.addEventListener("change", motionPref);
+
+    // Only animate while the section is on screen.
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        visible = entries[0].isIntersecting;
+        if (visible) start(); else stop();
+      }).observe(wrap);
+    }
+
+    var resizeTimer;
+    window.addEventListener("resize", function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(layout, 150);
+    });
+
+    layout();
+    motionPref();
+  })();
+
   // ---------- Scroll animation ----------
   // Everything below is progressive: if GSAP fails to load, or the visitor prefers
   // reduced motion, the page keeps its static layout with all content visible.
@@ -93,7 +294,7 @@
       mobile: "(max-width: 899.98px) and (prefers-reduced-motion: no-preference)"
     }, function (ctx) {
       var undo = truckJourney(gsap, ctx.conditions.desktop);
-      sectionReveals(gsap, ScrollTrigger);
+      sectionReveals(gsap, ScrollTrigger, ctx.conditions.desktop);
       return undo;
     });
 
@@ -212,7 +413,7 @@
   }
 
   // Light entrance animations for the rest of the page.
-  function sectionReveals(gsap, ScrollTrigger) {
+  function sectionReveals(gsap, ScrollTrigger, desktop) {
     function reveal(targets, from, stagger) {
       if (!targets.length) return;
       gsap.set(targets, Object.assign({ autoAlpha: 0, transition: "none" }, from));
@@ -231,8 +432,9 @@
     reveal(qa(".service"), { y: 28 }, 0.08);
     reveal(qa(".step"), { y: 22 }, 0.15);
     reveal(qa(".industries li"), { y: 14 }, 0.05);
-    reveal(qa(".contact__info"), { x: -24 }, 0);
-    reveal(qa(".contact__form"), { x: 24 }, 0);
+    // Side slides only where there's room; on phones they'd push past the screen edge.
+    reveal(qa(".contact__info"), desktop ? { x: -24 } : { y: 18 }, 0);
+    reveal(qa(".contact__form"), desktop ? { x: 16 } : { y: 18 }, 0.1);
 
     var stripes = q(".careers__stripes");
     if (stripes) {

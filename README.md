@@ -34,6 +34,18 @@ nothing plays on its own.
   static layout: headline, all four panels, and the truck parked on the road.
 - Other sections only get light entrance reveals and a slow drift on the careers banner.
 
+## Testimonials carousel
+The **What Our Customers Say** section (between Industries and Drive With RydeSmart) is a slow,
+continuous right-to-left conveyor of review cards (`reviewsCarousel()` in `js/main.js`, no library).
+It loops without a visible jump, eases to a stop on hover or keyboard focus, and can be dragged or
+swiped; arrows, dots, arrow keys and a pause button give manual control. The centre card is full
+size and opacity, neighbours are slightly smaller and dimmer. With reduced motion it doesn't move
+on its own; without JavaScript it's a plain swipeable row.
+
+**The six testimonials are fictional placeholders.** Each card is marked `data-sample`. Replace
+them with verified customer testimonials (same markup: quote, name, title, city) and delete the
+"Sample testimonials shown for layout purposes." note before the site goes live.
+
 The truck is an inline SVG illustration (so the wheels can turn and the lights can move). To use a
 real photo instead, replace the `<svg class="truck">` inside `.journey__truck` with a side-profile,
 transparent-background PNG/WebP of the truck facing right; the wheel-turn and light-sweep effects
@@ -46,6 +58,7 @@ simply won't apply to a flat photo.
 ## Placeholder info to replace before going live
 - USDOT / MC numbers in the footer
 - Stats (98% on-time, 48 states, 1 hr quote response), office hours and service list — confirm they're accurate
+- Testimonials — all six are samples (see below)
 
 The quote forms currently open the visitor's email app with the request filled in. To receive
 submissions directly, point the forms at a form service (e.g. Formspree or Netlify Forms).
