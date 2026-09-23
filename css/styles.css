@@ -576,7 +576,6 @@ textarea { resize: vertical; }
   background: rgba(255,255,255,.22); cursor: pointer; transition: background .3s, transform .3s;
 }
 .reviews__dot.is-active { background: var(--blue-bright); transform: scale(1.25); }
-.reviews__note { margin: 22px auto 0; text-align: center; font-size: .78rem; color: #6d7a9a; }
 
 .reviews.is-live .reviews__viewport { overflow: hidden; scroll-snap-type: none; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
 .reviews.is-live .reviews__track { padding: 0; will-change: transform; }

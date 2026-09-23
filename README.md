@@ -43,8 +43,8 @@ size and opacity, neighbours are slightly smaller and dimmer. With reduced motio
 on its own; without JavaScript it's a plain swipeable row.
 
 **The six testimonials are fictional placeholders.** Each card is marked `data-sample`. Replace
-them with verified customer testimonials (same markup: quote, name, title, city) and delete the
-"Sample testimonials shown for layout purposes." note before the site goes live.
+them with verified customer testimonials (same markup: quote, name, title, city) before the site
+goes live.
 
 The truck is an inline SVG illustration (so the wheels can turn and the lights can move). To use a
 real photo instead, replace the `<svg class="truck">` inside `.journey__truck` with a side-profile,

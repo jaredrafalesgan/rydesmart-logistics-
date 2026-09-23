@@ -545,7 +545,6 @@ html { scroll-behavior: smooth; scroll-padding-top: 90px; }
   background: rgba(255,255,255,.22); cursor: pointer; transition: background .3s, transform .3s;
 }
 #rs-site .rs-reviews__dot.rs-is-active { background: var(--blue-bright); transform: scale(1.25); }
-#rs-site .rs-reviews__note { margin: 22px auto 0; text-align: center; font-size: .78rem; color: #6d7a9a; }
 #rs-site .rs-reviews.rs-is-live .rs-reviews__viewport { overflow: hidden; scroll-snap-type: none; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
 #rs-site .rs-reviews.rs-is-live .rs-reviews__track { padding: 0; will-change: transform; }
 #rs-site .rs-reviews.rs-is-live .rs-review__card { will-change: transform, opacity; }
@@ -1042,8 +1041,8 @@ body { overflow-x: clip; }
 
     <!-- ===== Testimonials =====
          SAMPLE CONTENT: the six testimonials below are fictional placeholders for the mockup
-         (each card is marked data-sample). Replace them with verified customer testimonials,
-         and remove the .reviews__note line, before the site goes live. -->
+         (each card is marked data-sample). Replace them with verified customer testimonials
+         before the site goes live. -->
     <section class="rs-testimonials" id="rs-reviews" aria-labelledby="reviews-title">
       <div class="rs-container">
         <div class="rs-section__head">
@@ -1147,7 +1146,6 @@ body { overflow-x: clip; }
           <button type="button" class="rs-reviews__btn rs-reviews__next" aria-label="Next testimonial"><svg viewBox="0 0 24 24"><path d="M8.6 18.6 10 20l8-8-8-8-1.4 1.4 6.6 6.6z"/></svg></button>
           <button type="button" class="rs-reviews__btn rs-reviews__play" aria-label="Pause testimonials" aria-pressed="false"><svg class="rs-reviews__icon-pause" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zm6.5 0H17v14h-3.5z"/></svg><svg class="rs-reviews__icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
         </div>
-        <p class="rs-container rs-reviews__note">Sample testimonials shown for layout purposes.</p>
       </div>
     </section>
 
