@@ -25,3 +25,9 @@ Open `index.html` in a browser, or host the folder on GitHub Pages
 
 The quote forms currently open the visitor's email app with the request filled in. To receive
 submissions directly, point the forms at a form service (e.g. Formspree or Netlify Forms).
+
+## GoHighLevel version
+`gohighlevel/rydesmart-ghl.html` is the whole site as a single paste-in snippet for a GoHighLevel
+**Custom JS/HTML** element. Its classes and ids are prefixed with `rs-` and its CSS only applies inside
+`<div id="rs-site">`, so it won't clash with the page builder. After editing `index.html`, `css/` or `js/`,
+rebuild it with `python3 tools/build_ghl.py` (needs Pillow).

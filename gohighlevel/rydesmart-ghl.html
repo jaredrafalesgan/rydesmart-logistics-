@@ -1,0 +1,845 @@
+<!-- RydeSmart Logistics site: paste into a GoHighLevel Custom JS/HTML element -->
+<link href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+#rs-site {
+  --blue: #0a5ae0;
+  --blue-bright: #1f6dff;
+  --blue-deep: #0033b4;
+  --navy: #071a4d;
+  --ink: #0d0f14;
+  --charcoal: #1b1e25;
+  --text: #2a2f3a;
+  --muted: #5d6576;
+  --line: #dfe4ee;
+  --tint: #f2f5fb;
+  --white: #ffffff;
+
+  --font-display: "Saira", "Arial Narrow", Arial, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --radius: 6px;
+  --shadow: 0 18px 40px -18px rgba(7, 26, 77, .35);
+  --skew: -12deg; 
+}
+#rs-site, #rs-site *, #rs-site *::before, #rs-site *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+#rs-site {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+}
+#rs-site img { max-width: 100%; height: auto; display: block; }
+#rs-site a { color: var(--blue); text-decoration: none; }
+#rs-site a:hover { color: var(--blue-deep); }
+#rs-site h1, #rs-site h2, #rs-site h3, #rs-site h4 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  line-height: 1.1;
+  margin: 0 0 .5em;
+}
+#rs-site h2 { font-size: clamp(1.9rem, 3.6vw, 2.8rem); font-weight: 800; font-style: italic; text-transform: uppercase; letter-spacing: -.01em; }
+#rs-site h3 { font-size: 1.3rem; font-weight: 700; }
+#rs-site p { margin: 0 0 1em; }
+#rs-site .rs-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 640px) {
+#rs-site .rs-container { padding: 0 24px; }
+}
+#rs-site .rs-ico { width: 15px; height: 15px; fill: currentColor; vertical-align: -2px; margin-right: 4px; }
+#rs-site .rs-accent { color: var(--blue); }
+#rs-site .rs-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 14px;
+}
+#rs-site .rs-eyebrow::before, #rs-site .rs-section__head .rs-eyebrow::after {
+  content: "";
+  width: 34px; height: 3px;
+  background: currentColor;
+  border-radius: 2px;
+}
+#rs-site .rs-eyebrow--light { color: #7fb0ff; }
+#rs-site .rs-btn {
+  display: inline-block;
+  padding: 13px 26px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  transform: skewX(var(--skew));
+  transition: background .2s, color .2s, border-color .2s, transform .2s, box-shadow .2s;
+}
+#rs-site .rs-btn > span { display: inline-block; transform: skewX(calc(var(--skew) * -1)); }
+#rs-site .rs-btn:hover { transform: skewX(var(--skew)) translateY(-2px); }
+#rs-site .rs-btn--primary { background: var(--blue); color: var(--white); box-shadow: 0 10px 22px -10px rgba(10, 90, 224, .8); }
+#rs-site .rs-btn--primary:hover { background: var(--blue-deep); color: var(--white); }
+#rs-site .rs-btn--ghost { border-color: rgba(255,255,255,.7); color: var(--white); }
+#rs-site .rs-btn--ghost:hover { background: var(--white); color: var(--ink); }
+#rs-site .rs-btn--light { background: var(--white); color: var(--blue-deep); }
+#rs-site .rs-btn--light:hover { background: var(--ink); color: var(--white); }
+#rs-site .rs-btn--lg { padding: 16px 32px; font-size: 1.05rem; }
+#rs-site .rs-btn--block { display: block; width: 100%; text-align: center; }
+#rs-site .rs-topbar { background: var(--ink); color: #c9cfdb; font-size: .85rem; }
+#rs-site .rs-topbar__inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 40px; }
+#rs-site .rs-topbar__info, #rs-site .rs-topbar__contact { display: flex; gap: 22px; align-items: center; }
+#rs-site .rs-topbar a { color: #c9cfdb; }
+#rs-site .rs-topbar a:hover { color: var(--white); }
+#rs-site .rs-topbar__phone { color: var(--white) !important; font-weight: 700; }
+#rs-site .rs-topbar__info .rs-ico { color: var(--blue-bright); }
+@media (max-width: 760px) {
+#rs-site .rs-hide-sm { display: none !important; }
+}
+#rs-site .rs-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(255,255,255,.97);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+  transition: box-shadow .2s;
+}
+#rs-site .rs-header.rs-is-scrolled { box-shadow: 0 6px 24px -12px rgba(7,26,77,.25); }
+#rs-site .rs-header__inner { display: flex; align-items: center; justify-content: space-between; min-height: 78px; gap: 20px; }
+#rs-site .rs-brand img { width: 230px; }
+#rs-site .rs-nav { display: flex; align-items: center; gap: 22px; white-space: nowrap; }
+#rs-site .rs-nav a:not(.rs-btn) {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-size: .95rem;
+  color: var(--ink);
+  position: relative;
+  padding: 6px 0;
+}
+#rs-site .rs-nav a:not(.rs-btn)::after {
+  content: ""; position: absolute; left: 0; right: 100%; bottom: 0;
+  height: 3px; background: var(--blue); transition: right .25s;
+}
+#rs-site .rs-nav a:not(.rs-btn):hover::after { right: 0; }
+#rs-site .rs-nav__cta { padding: 11px 20px; font-size: .9rem; }
+#rs-site .rs-nav-toggle { display: none; background: none; border: 0; padding: 10px; cursor: pointer; }
+#rs-site .rs-nav-toggle span { display: block; width: 26px; height: 3px; margin: 5px 0; background: var(--ink); border-radius: 2px; transition: transform .25s, opacity .25s; }
+#rs-site .rs-nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+#rs-site .rs-nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+#rs-site .rs-nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+@media (max-width: 1100px) {
+#rs-site .rs-nav-toggle { display: block; }
+#rs-site .rs-nav {
+    position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 0;
+    background: var(--white); border-bottom: 1px solid var(--line);
+    padding: 8px 16px 20px;
+    box-shadow: 0 16px 30px -18px rgba(7,26,77,.35);
+    display: none;
+  }
+#rs-site .rs-nav.rs-is-open { display: flex; }
+#rs-site .rs-nav a:not(.rs-btn) { padding: 14px 4px; border-bottom: 1px solid var(--line); }
+#rs-site .rs-nav a:not(.rs-btn)::after { display: none; }
+#rs-site .rs-nav__cta { margin-top: 16px; text-align: center; }
+#rs-site .rs-brand img { width: 190px; }
+}
+#rs-site .rs-hero {
+  position: relative;
+  overflow: hidden;
+  color: #d8def0;
+  background:
+    radial-gradient(120% 90% at 85% 10%, rgba(31,109,255,.35), transparent 55%),
+    linear-gradient(135deg, var(--ink) 0%, #0b1638 45%, var(--navy) 100%);
+  padding: 80px 0 90px;
+}
+#rs-site .rs-hero__bg { position: absolute; inset: 0; pointer-events: none; }
+#rs-site .rs-hero__road { position: absolute; right: -8%; bottom: 0; width: 70%; height: 100%; opacity: .55; }
+#rs-site .rs-hero__lane { animation: rs-lane 1.2s linear infinite; }
+@keyframes rs-lane { to { stroke-dashoffset: -56; } }
+#rs-site .rs-hero__streaks { position: absolute; left: 0; top: 18%; width: 45%; }
+#rs-site .rs-hero__streaks span {
+  display: block; height: 6px; margin: 16px 0;
+  border-radius: 0 6px 6px 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.14));
+  transform: skewX(var(--skew));
+}
+#rs-site .rs-hero__streaks span:nth-child(1) { width: 60%; }
+#rs-site .rs-hero__streaks span:nth-child(2) { width: 85%; }
+#rs-site .rs-hero__streaks span:nth-child(3) { width: 100%; background: linear-gradient(90deg, transparent, rgba(31,109,255,.45)); }
+#rs-site .rs-hero__streaks span:nth-child(4) { width: 75%; }
+#rs-site .rs-hero__streaks span:nth-child(5) { width: 50%; }
+#rs-site .rs-hero__inner { position: relative; display: grid; grid-template-columns: 1.25fr .9fr; gap: 56px; align-items: center; }
+#rs-site .rs-hero h1 {
+  color: var(--white);
+  font-size: clamp(2.5rem, 6vw, 4.4rem);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -.015em;
+  line-height: 1;
+  margin-bottom: 22px;
+}
+#rs-site .rs-hero h1 .rs-accent { color: var(--blue-bright); }
+#rs-site .rs-hero__lead { font-size: 1.12rem; max-width: 560px; color: #c3cbe0; }
+#rs-site .rs-hero__actions { display: flex; flex-wrap: wrap; gap: 16px; margin: 30px 0 28px; }
+#rs-site .rs-hero__checks { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px 26px; font-weight: 600; font-size: .95rem; color: var(--white); }
+#rs-site .rs-hero__checks li::before {
+  content: ""; display: inline-block; width: 16px; height: 16px; margin-right: 8px; vertical-align: -3px;
+  background: var(--blue-bright);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+#rs-site .rs-hero__card {
+  background: var(--white);
+  color: var(--text);
+  border-radius: var(--radius);
+  padding: 30px;
+  box-shadow: 0 30px 60px -25px rgba(0,0,0,.6);
+  border-top: 6px solid var(--blue);
+}
+#rs-site .rs-hero__card h2 { font-size: 1.8rem; margin-bottom: 6px; }
+#rs-site .rs-hero__card > p { color: var(--muted); font-size: .95rem; }
+@media (max-width: 900px) {
+#rs-site .rs-hero { padding: 56px 0 64px; }
+#rs-site .rs-hero__inner { grid-template-columns: 1fr; gap: 40px; }
+#rs-site .rs-hero__road { width: 120%; right: -40%; opacity: .15; }
+}
+#rs-site label { display: block; font-size: .82rem; font-weight: 600; color: var(--ink); text-transform: uppercase; letter-spacing: .04em; }
+#rs-site input, #rs-site select, #rs-site textarea {
+  display: block; width: 100%;
+  margin-top: 6px;
+  padding: 12px 14px;
+  font: inherit; font-size: 1rem; text-transform: none; letter-spacing: 0; font-weight: 400;
+  color: var(--ink);
+  background: var(--tint);
+  border: 1.5px solid var(--line);
+  border-radius: 4px;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+#rs-site input:focus, #rs-site select:focus, #rs-site textarea:focus { outline: none; border-color: var(--blue); background: var(--white); box-shadow: 0 0 0 3px rgba(10,90,224,.18); }
+#rs-site textarea { resize: vertical; }
+#rs-site .rs-quick-form { display: grid; gap: 14px; }
+#rs-site .rs-quick-form .rs-btn { margin-top: 6px; }
+#rs-site .rs-form-note { margin: 10px 0 0; font-size: .9rem; font-weight: 600; color: var(--blue-deep); min-height: 1.2em; }
+#rs-site .rs-stats { background: linear-gradient(90deg, var(--blue-deep), var(--blue)); color: var(--white); }
+#rs-site .rs-stats__grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+#rs-site .rs-stat { text-align: center; padding: 30px 12px; border-left: 1px solid rgba(255,255,255,.2); }
+#rs-site .rs-stat:first-child { border-left: 0; }
+#rs-site .rs-stat strong { display: block; font-family: var(--font-display); font-size: clamp(2rem, 4vw, 2.9rem); font-weight: 900; font-style: italic; line-height: 1; }
+#rs-site .rs-stat span { font-family: var(--font-display); font-weight: 600; text-transform: uppercase; letter-spacing: .14em; font-size: .8rem; opacity: .9; }
+@media (max-width: 700px) {
+#rs-site .rs-stats__grid { grid-template-columns: repeat(2, 1fr); }
+#rs-site .rs-stat:nth-child(3) { border-left: 0; }
+#rs-site .rs-stat:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,.2); }
+}
+#rs-site .rs-section { padding: 96px 0; }
+#rs-site .rs-section--tint { background: var(--tint); }
+#rs-site .rs-section--dark { background: linear-gradient(160deg, var(--ink), var(--charcoal) 60%, var(--navy)); color: #c3cbe0; }
+#rs-site .rs-section--dark h2, #rs-site .rs-section--dark h3 { color: var(--white); }
+#rs-site .rs-section__head { text-align: center; max-width: 720px; margin: 0 auto 56px; }
+#rs-site .rs-section__head p:not(.rs-eyebrow) { color: var(--muted); font-size: 1.08rem; }
+@media (max-width: 700px) {
+#rs-site .rs-section { padding: 68px 0; }
+#rs-site .rs-section__head { margin-bottom: 40px; }
+}
+#rs-site .rs-services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+#rs-site .rs-service {
+  position: relative;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 34px 30px 30px;
+  overflow: hidden;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+#rs-site .rs-service::before {
+  content: ""; position: absolute; left: 0; top: 0; height: 5px; width: 0;
+  background: var(--blue); transition: width .35s;
+}
+#rs-site .rs-service:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: transparent; }
+#rs-site .rs-service:hover::before { width: 100%; }
+#rs-site .rs-service__icon {
+  width: 64px; height: 64px; margin-bottom: 20px;
+  display: grid; place-items: center;
+  color: var(--blue);
+  background: #e8efff;
+  border-radius: 6px;
+  transform: skewX(var(--skew));
+}
+#rs-site .rs-service__icon svg { width: 36px; height: 36px; transform: skewX(calc(var(--skew) * -1)); }
+#rs-site .rs-service p { color: var(--muted); }
+#rs-site .rs-service__link { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: .9rem; }
+#rs-site .rs-service__link::after { content: " →"; transition: margin .2s; }
+#rs-site .rs-service__link:hover::after { margin-left: 4px; }
+@media (max-width: 980px) {
+#rs-site .rs-services { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+#rs-site .rs-services { grid-template-columns: 1fr; }
+}
+#rs-site .rs-why { display: grid; grid-template-columns: 1fr 1.15fr; gap: 64px; align-items: center; }
+#rs-site .rs-why__copy p { font-size: 1.08rem; margin-bottom: 28px; }
+#rs-site .rs-why__copy h2 .rs-accent { color: var(--blue-bright); }
+#rs-site .rs-why__list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+#rs-site .rs-why__list li {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  border-left: 4px solid var(--blue-bright);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+#rs-site .rs-why__list h3 { font-size: 1.15rem; margin-bottom: 8px; }
+#rs-site .rs-why__list p { margin: 0; font-size: .95rem; }
+@media (max-width: 900px) {
+#rs-site .rs-why { grid-template-columns: 1fr; gap: 40px; }
+}
+@media (max-width: 560px) {
+#rs-site .rs-why__list { grid-template-columns: 1fr; }
+}
+#rs-site .rs-steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; counter-reset: none; }
+#rs-site .rs-step { position: relative; padding-top: 22px; border-top: 3px solid var(--line); }
+#rs-site .rs-step::before { content: ""; position: absolute; top: -3px; left: 0; width: 60px; height: 3px; background: var(--blue); }
+#rs-site .rs-step__num { display: block; font-family: var(--font-display); font-weight: 900; font-style: italic; font-size: 3rem; line-height: 1; color: var(--blue); margin-bottom: 12px; }
+#rs-site .rs-step p { color: var(--muted); margin: 0; }
+@media (max-width: 900px) {
+#rs-site .rs-steps { grid-template-columns: repeat(2, 1fr); gap: 36px 26px; }
+}
+@media (max-width: 520px) {
+#rs-site .rs-steps { grid-template-columns: 1fr; }
+}
+#rs-site .rs-industries { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+#rs-site .rs-industries li {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  color: var(--ink);
+  display: flex; align-items: center; gap: 12px;
+}
+#rs-site .rs-industries li::before { content: ""; flex: none; width: 10px; height: 22px; background: var(--blue); transform: skewX(var(--skew)); }
+@media (max-width: 900px) {
+#rs-site .rs-industries { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 460px) {
+#rs-site .rs-industries { grid-template-columns: 1fr; }
+}
+#rs-site .rs-careers {
+  background:
+    repeating-linear-gradient(115deg, rgba(255,255,255,.05) 0 14px, transparent 14px 40px),
+    linear-gradient(90deg, var(--blue-deep), var(--blue));
+  color: #e2eaff;
+  padding: 64px 0;
+}
+#rs-site .rs-careers h2 { color: var(--white); margin-bottom: 10px; }
+#rs-site .rs-careers .rs-eyebrow--light { color: #cfe0ff; }
+#rs-site .rs-careers p:not(.rs-eyebrow) { max-width: 620px; margin: 0; font-size: 1.05rem; }
+#rs-site .rs-careers__inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+@media (max-width: 800px) {
+#rs-site .rs-careers__inner { flex-direction: column; align-items: flex-start; }
+}
+#rs-site .rs-contact { display: grid; grid-template-columns: .9fr 1.2fr; gap: 64px; align-items: start; }
+#rs-site .rs-contact__info > p { color: var(--muted); font-size: 1.05rem; }
+#rs-site .rs-contact__list { list-style: none; padding: 0; margin: 32px 0 0; display: grid; gap: 22px; }
+#rs-site .rs-contact__list li { display: flex; gap: 16px; align-items: flex-start; }
+#rs-site .rs-contact__list strong { display: block; font-family: var(--font-display); text-transform: uppercase; letter-spacing: .06em; color: var(--ink); }
+#rs-site .rs-contact__list a, #rs-site .rs-contact__list span { color: var(--text); overflow-wrap: anywhere; }
+#rs-site .rs-contact__list a:hover { color: var(--blue); }
+#rs-site .rs-contact__ico { flex: none; width: 46px; height: 46px; display: grid; place-items: center; background: var(--blue); border-radius: 4px; transform: skewX(var(--skew)); }
+#rs-site .rs-contact__ico svg { width: 22px; height: 22px; fill: var(--white); transform: skewX(calc(var(--skew) * -1)); }
+#rs-site .rs-contact__form {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-top: 6px solid var(--blue);
+  border-radius: var(--radius);
+  padding: 34px;
+  box-shadow: var(--shadow);
+}
+#rs-site .rs-contact__form h3 { font-size: 1.6rem; font-style: italic; text-transform: uppercase; margin-bottom: 22px; }
+#rs-site .rs-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 22px; }
+#rs-site .rs-span-2 { grid-column: span 2; }
+@media (max-width: 900px) {
+#rs-site .rs-contact { grid-template-columns: 1fr; gap: 40px; }
+}
+@media (max-width: 560px) {
+#rs-site .rs-form-grid { grid-template-columns: 1fr; }
+#rs-site .rs-span-2 { grid-column: auto; }
+#rs-site .rs-contact__form, #rs-site .rs-hero__card { padding: 24px 20px; }
+}
+#rs-site .rs-footer { background: var(--ink); color: #9aa3b5; padding-top: 72px; font-size: .95rem; }
+#rs-site .rs-footer__grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.3fr; gap: 40px; padding-bottom: 56px; }
+#rs-site .rs-footer__brand img { width: 250px; margin-bottom: 20px; }
+#rs-site .rs-footer__brand p { max-width: 330px; }
+#rs-site .rs-footer h4 { color: var(--white); font-size: 1rem; text-transform: uppercase; letter-spacing: .14em; margin-bottom: 18px; }
+#rs-site .rs-footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+#rs-site .rs-footer a { color: #9aa3b5; }
+#rs-site .rs-footer a:hover { color: var(--white); }
+#rs-site .rs-footer__contact li { overflow-wrap: anywhere; }
+#rs-site .rs-footer__bottom { border-top: 1px solid rgba(255,255,255,.1); padding: 22px 0; font-size: .85rem; }
+#rs-site .rs-footer__bottom-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+@media (max-width: 900px) {
+#rs-site .rs-footer__grid { grid-template-columns: 1fr 1fr; }
+#rs-site .rs-footer__brand { grid-column: span 2; }
+}
+@media (max-width: 520px) {
+#rs-site .rs-footer__grid { grid-template-columns: 1fr; }
+#rs-site .rs-footer__brand { grid-column: auto; }
+}
+#rs-site .rs-call-fab {
+  position: fixed; right: 18px; bottom: 18px; z-index: 60;
+  width: 58px; height: 58px; border-radius: 50%;
+  display: none; place-items: center;
+  background: var(--blue); box-shadow: 0 12px 26px -8px rgba(10,90,224,.8);
+}
+#rs-site .rs-call-fab svg { width: 26px; height: 26px; fill: var(--white); }
+@media (max-width: 760px) {
+#rs-site .rs-call-fab { display: grid; }
+}
+#rs-site .rs-reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+#rs-site .rs-reveal.rs-is-visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+html { scroll-behavior: auto; }
+#rs-site .rs-hero__lane { animation: none; }
+#rs-site .rs-reveal { opacity: 1; transform: none; transition: none; }
+#rs-site .rs-btn, #rs-site .rs-service { transition: none; }
+}
+</style>
+<div id="rs-site">
+<!-- ===== Top info bar ===== -->
+  <div class="rs-topbar">
+    <div class="rs-container rs-topbar__inner">
+      <div class="rs-topbar__info">
+        <span><svg class="rs-ico" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 10.4 3.2 3.2-1.4 1.4-3.8-3.8V6h2Z"/></svg> 24/7 Dispatch &amp; Tracking</span>
+        <span class="rs-hide-sm"><svg class="rs-ico" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg> Serving all 48 contiguous states</span>
+      </div>
+      <div class="rs-topbar__contact">
+        <a href="mailto:dispatch@rydesmartlogistics.com" class="rs-hide-sm">dispatch@rydesmartlogistics.com</a>
+        <a href="tel:+15551234567" class="rs-topbar__phone"><svg class="rs-ico" viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1Z"/></svg> (555) 123-4567</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Header / navigation ===== -->
+  <header class="rs-header" id="rs-top">
+    <div class="rs-container rs-header__inner">
+      <a href="#rs-top" class="rs-brand" aria-label="RydeSmart Logistics home">
+        <img src="data:image/png;base64,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" alt="RydeSmart Logistics" width="520" height="100">
+      </a>
+      <button class="rs-nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="rs-nav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="rs-nav" id="rs-nav">
+        <a href="#rs-services">Services</a>
+        <a href="#rs-why">Why RydeSmart</a>
+        <a href="#rs-process">How It Works</a>
+        <a href="#rs-industries">Industries</a>
+        <a href="#rs-careers">Drive With Us</a>
+        <a href="#rs-contact">Contact</a>
+        <a href="#rs-quote" class="rs-btn rs-btn--primary rs-nav__cta"><span>Get a Quote</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="rs-hero">
+      <div class="rs-hero__bg" aria-hidden="true">
+        <svg class="rs-hero__road" viewBox="0 0 800 600" preserveAspectRatio="xMidYMax slice">
+          <defs>
+            <linearGradient id="rs-roadFade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#0a5ae0" stop-opacity="0"/>
+              <stop offset="1" stop-color="#0a5ae0" stop-opacity=".55"/>
+            </linearGradient>
+          </defs>
+          <path d="M360 0 L440 0 L800 600 L0 600 Z" fill="url(#rs-roadFade)" opacity=".35"/>
+          <path d="M360 0 L0 600" stroke="#fff" stroke-opacity=".35" stroke-width="3" fill="none"/>
+          <path d="M440 0 L800 600" stroke="#fff" stroke-opacity=".35" stroke-width="3" fill="none"/>
+          <path class="rs-hero__lane" d="M400 0 L400 600" stroke="#fff" stroke-width="6" stroke-dasharray="26 30" fill="none"/>
+        </svg>
+        <div class="rs-hero__streaks">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+
+      <div class="rs-container rs-hero__inner">
+        <div class="rs-hero__copy">
+          <p class="rs-eyebrow rs-eyebrow--light">Freight Transportation &amp; Logistics</p>
+          <h1>Your freight.<br><span class="rs-accent">On time. Every time.</span></h1>
+          <p class="rs-hero__lead">RydeSmart Logistics moves full truckload, LTL, expedited and dedicated freight across the country. We keep your cargo safe, your schedule on track, and you updated from pickup to delivery.</p>
+          <div class="rs-hero__actions">
+            <a href="#rs-quote" class="rs-btn rs-btn--primary rs-btn--lg"><span>Request a Free Quote</span></a>
+            <a href="tel:+15551234567" class="rs-btn rs-btn--ghost rs-btn--lg"><span>Call Dispatch 24/7</span></a>
+          </div>
+          <ul class="rs-hero__checks">
+            <li>Real-time GPS tracking</li>
+            <li>Fully insured &amp; DOT compliant</li>
+            <li>Same-day capacity available</li>
+          </ul>
+        </div>
+
+        <aside class="rs-hero__card" aria-label="Quick quote">
+          <h2>Quick Quote</h2>
+          <p>Tell us where it's going. We'll respond within 1 business hour.</p>
+          <form class="rs-quick-form" data-quote-form>
+            <label>Pickup ZIP<input type="text" name="pickup" inputmode="numeric" placeholder="e.g. 30303" required></label>
+            <label>Delivery ZIP<input type="text" name="delivery" inputmode="numeric" placeholder="e.g. 75201" required></label>
+            <label>Service
+              <select name="service">
+                <option>Full Truckload (FTL)</option>
+                <option>Less Than Truckload (LTL)</option>
+                <option>Expedited / Hot Shot</option>
+                <option>Dedicated Fleet</option>
+                <option>Power Only</option>
+                <option>Final-Mile Delivery</option>
+              </select>
+            </label>
+            <label>Phone or Email<input type="text" name="contact" placeholder="How should we reach you?" required></label>
+            <button type="submit" class="rs-btn rs-btn--primary rs-btn--block"><span>Get My Rate</span></button>
+            <p class="rs-form-note" role="status" aria-live="polite"></p>
+          </form>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===== Stats band ===== -->
+    <section class="rs-stats" aria-label="RydeSmart at a glance">
+      <div class="rs-container rs-stats__grid">
+        <div class="rs-stat"><strong>98%</strong><span>On-Time Delivery</span></div>
+        <div class="rs-stat"><strong>48</strong><span>States Covered</span></div>
+        <div class="rs-stat"><strong>24/7</strong><span>Live Dispatch</span></div>
+        <div class="rs-stat"><strong>1 hr</strong><span>Quote Response</span></div>
+      </div>
+    </section>
+
+    <!-- ===== Services ===== -->
+    <section class="rs-section" id="rs-services">
+      <div class="rs-container">
+        <div class="rs-section__head">
+          <p class="rs-eyebrow">Our Services</p>
+          <h2>Transportation solutions built around your freight</h2>
+          <p>A single load or a full fleet program, RydeSmart has the equipment, drivers and dispatch team to get it there.</p>
+        </div>
+
+        <div class="rs-services">
+          <article class="rs-service">
+            <div class="rs-service__icon"><svg viewBox="0 0 48 48"><path d="M4 12h24v20H4zM28 18h8l6 7v7H28z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><circle cx="12" cy="35" r="4" fill="#fff" stroke="currentColor" stroke-width="3"/><circle cx="35" cy="35" r="4" fill="#fff" stroke="currentColor" stroke-width="3"/></svg></div>
+            <h3>Full Truckload (FTL)</h3>
+            <p>Dedicated 53' dry van and reefer capacity for shipments that need the whole trailer. Direct routes, no transfers, fewer touches.</p>
+            <a href="#rs-quote" class="rs-service__link">Get an FTL quote</a>
+          </article>
+
+          <article class="rs-service">
+            <div class="rs-service__icon"><svg viewBox="0 0 48 48"><rect x="6" y="20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3"/><rect x="20" y="10" width="14" height="24" fill="none" stroke="currentColor" stroke-width="3"/><rect x="34" y="24" width="8" height="10" fill="none" stroke="currentColor" stroke-width="3"/><path d="M4 38h40" stroke="currentColor" stroke-width="3"/></svg></div>
+            <h3>Less Than Truckload (LTL)</h3>
+            <p>Pay only for the space you use. We consolidate partial loads to cut costs without cutting corners on handling.</p>
+            <a href="#rs-quote" class="rs-service__link">Get an LTL quote</a>
+          </article>
+
+          <article class="rs-service">
+            <div class="rs-service__icon"><svg viewBox="0 0 48 48"><path d="M26 4 10 28h12l-2 16 18-26H26z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg></div>
+            <h3>Expedited &amp; Hot Shot</h3>
+            <p>Time-critical freight moved by team drivers and hot shot units. When the line is down, we roll the same day.</p>
+            <a href="#rs-quote" class="rs-service__link">Ship it now</a>
+          </article>
+
+          <article class="rs-service">
+            <div class="rs-service__icon"><svg viewBox="0 0 48 48"><path d="M8 40V18l16-10 16 10v22" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M16 40V26h16v14M16 32h16" fill="none" stroke="currentColor" stroke-width="3"/></svg></div>
+            <h3>Dedicated Fleet</h3>
+            <p>Your own trucks and drivers, without the overhead. Consistent lanes, consistent faces and capacity you can count on.</p>
+            <a href="#rs-quote" class="rs-service__link">Build a fleet plan</a>
+          </article>
+
+          <article class="rs-service">
+            <div class="rs-service__icon"><svg viewBox="0 0 48 48"><path d="M6 30V18h14l6 8h8" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M6 30h32" stroke="currentColor" stroke-width="3"/><circle cx="13" cy="34" r="4" fill="#fff" stroke="currentColor" stroke-width="3"/><circle cx="31" cy="34" r="4" fill="#fff" stroke="currentColor" stroke-width="3"/><path d="M36 24h8M40 20v8" stroke="currentColor" stroke-width="3"/></svg></div>
+            <h3>Power Only</h3>
+            <p>Have trailers but need tractors? We supply the truck and a professional driver to haul your equipment.</p>
+            <a href="#rs-quote" class="rs-service__link">Book power only</a>
+          </article>
+
+          <article class="rs-service">
+            <div class="rs-service__icon"><svg viewBox="0 0 48 48"><path d="M24 4 6 13v22l18 9 18-9V13z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="m6 13 18 9 18-9M24 22v22" fill="none" stroke="currentColor" stroke-width="3"/></svg></div>
+            <h3>Final-Mile Delivery</h3>
+            <p>Box trucks and liftgate service for residential and commercial drop-offs, with appointment scheduling and proof of delivery.</p>
+            <a href="#rs-quote" class="rs-service__link">Plan a delivery</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Why choose us ===== -->
+    <section class="rs-section rs-section--dark" id="rs-why">
+      <div class="rs-container rs-why">
+        <div class="rs-why__copy">
+          <p class="rs-eyebrow rs-eyebrow--light">Why RydeSmart</p>
+          <h2>Driven by safety.<br><span class="rs-accent">Focused on delivery.</span></h2>
+          <p>Our motto isn't just on the logo. Every driver, truck and dispatcher at RydeSmart is held to one standard: get the freight there safely, on schedule and in the same condition it left.</p>
+          <a href="#rs-quote" class="rs-btn rs-btn--primary"><span>Work With Us</span></a>
+        </div>
+        <ul class="rs-why__list">
+          <li>
+            <h3>Safety-First Drivers</h3>
+            <p>CDL professionals with clean records, ongoing safety training and strict hours-of-service compliance.</p>
+          </li>
+          <li>
+            <h3>Live Shipment Tracking</h3>
+            <p>ELD-equipped trucks with GPS updates, so you always know where your load is and when it will arrive.</p>
+          </li>
+          <li>
+            <h3>Fully Insured Cargo</h3>
+            <p>Comprehensive auto liability and cargo coverage on every load, with certificates available on request.</p>
+          </li>
+          <li>
+            <h3>One Point of Contact</h3>
+            <p>A dedicated dispatcher who knows your freight and answers the phone at any hour, day or night.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Process ===== -->
+    <section class="rs-section" id="rs-process">
+      <div class="rs-container">
+        <div class="rs-section__head">
+          <p class="rs-eyebrow">How It Works</p>
+          <h2>From quote to delivered in four simple steps</h2>
+        </div>
+        <ol class="rs-steps">
+          <li class="rs-step">
+            <span class="rs-step__num">01</span>
+            <h3>Request a Quote</h3>
+            <p>Share your lanes, freight details and timeline. We'll send a clear, all-in rate fast.</p>
+          </li>
+          <li class="rs-step">
+            <span class="rs-step__num">02</span>
+            <h3>Schedule Pickup</h3>
+            <p>We match the right truck and driver to your load and confirm your pickup window.</p>
+          </li>
+          <li class="rs-step">
+            <span class="rs-step__num">03</span>
+            <h3>Track in Transit</h3>
+            <p>Get proactive status updates and live location from your dispatcher at every stage.</p>
+          </li>
+          <li class="rs-step">
+            <span class="rs-step__num">04</span>
+            <h3>Delivered &amp; Signed</h3>
+            <p>Freight arrives on time with signed proof of delivery sent straight to your inbox.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== Industries ===== -->
+    <section class="rs-section rs-section--tint" id="rs-industries">
+      <div class="rs-container">
+        <div class="rs-section__head">
+          <p class="rs-eyebrow">Industries We Serve</p>
+          <h2>Freight expertise across every sector</h2>
+        </div>
+        <ul class="rs-industries">
+          <li>Retail &amp; E-Commerce</li>
+          <li>Manufacturing</li>
+          <li>Food &amp; Beverage</li>
+          <li>Building Materials</li>
+          <li>Automotive Parts</li>
+          <li>Consumer Goods</li>
+          <li>Paper &amp; Packaging</li>
+          <li>Agriculture</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Careers band ===== -->
+    <section class="rs-careers" id="rs-careers">
+      <div class="rs-container rs-careers__inner">
+        <div>
+          <p class="rs-eyebrow rs-eyebrow--light">Now Hiring CDL-A Drivers</p>
+          <h2>Drive with RydeSmart</h2>
+          <p>Competitive weekly pay, home-time you can plan around, well-maintained equipment and a dispatch team that has your back.</p>
+        </div>
+        <a href="mailto:careers@rydesmartlogistics.com?subject=Driver%20Application" class="rs-btn rs-btn--light rs-btn--lg"><span>Apply Today</span></a>
+      </div>
+    </section>
+
+    <!-- ===== Quote / contact ===== -->
+    <section class="rs-section" id="rs-quote">
+      <div class="rs-container rs-contact" id="rs-contact">
+        <div class="rs-contact__info">
+          <p class="rs-eyebrow">Get In Touch</p>
+          <h2>Ready to move your freight?</h2>
+          <p>Call our 24/7 dispatch line or send the form, and a RydeSmart logistics specialist will get back to you with a rate and available capacity.</p>
+
+          <ul class="rs-contact__list">
+            <li>
+              <span class="rs-contact__ico"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1Z"/></svg></span>
+              <div><strong>Dispatch (24/7)</strong><a href="tel:+15551234567">(555) 123-4567</a></div>
+            </li>
+            <li>
+              <span class="rs-contact__ico"><svg viewBox="0 0 24 24"><path d="M3 5h18v14H3zm2 2v.4l7 4.6 7-4.6V7z"/></svg></span>
+              <div><strong>Email</strong><a href="mailto:dispatch@rydesmartlogistics.com">dispatch@rydesmartlogistics.com</a></div>
+            </li>
+            <li>
+              <span class="rs-contact__ico"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 10.4 3.2 3.2-1.4 1.4-3.8-3.8V6h2Z"/></svg></span>
+              <div><strong>Office Hours</strong><span>Mon–Fri 7:00am – 7:00pm<br>Dispatch open 24 hours, 7 days</span></div>
+            </li>
+          </ul>
+        </div>
+
+        <form class="rs-contact__form" data-quote-form>
+          <h3>Request a Freight Quote</h3>
+          <div class="rs-form-grid">
+            <label>Full Name<input type="text" name="name" autocomplete="name" required></label>
+            <label>Company<input type="text" name="company" autocomplete="organization"></label>
+            <label>Email<input type="email" name="email" autocomplete="email" required></label>
+            <label>Phone<input type="tel" name="phone" autocomplete="tel"></label>
+            <label>Pickup City / ZIP<input type="text" name="pickup" required></label>
+            <label>Delivery City / ZIP<input type="text" name="delivery" required></label>
+            <label>Service
+              <select name="service">
+                <option>Full Truckload (FTL)</option>
+                <option>Less Than Truckload (LTL)</option>
+                <option>Expedited / Hot Shot</option>
+                <option>Dedicated Fleet</option>
+                <option>Power Only</option>
+                <option>Final-Mile Delivery</option>
+              </select>
+            </label>
+            <label>Pickup Date<input type="date" name="date"></label>
+            <label class="rs-span-2">Freight Details<textarea name="details" rows="4" placeholder="Commodity, weight, pallet count, dimensions, special handling…"></textarea></label>
+          </div>
+          <button type="submit" class="rs-btn rs-btn--primary rs-btn--block rs-btn--lg"><span>Send Quote Request</span></button>
+          <p class="rs-form-note" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="rs-footer">
+    <div class="rs-container rs-footer__grid">
+      <div class="rs-footer__brand">
+        <img src="data:image/png;base64,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" alt="RydeSmart Logistics" width="520" height="100">
+        <p>Driven by safety. Focused on delivery. Reliable freight transportation for shippers of every size.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#rs-services">Full Truckload</a></li>
+          <li><a href="#rs-services">LTL Freight</a></li>
+          <li><a href="#rs-services">Expedited &amp; Hot Shot</a></li>
+          <li><a href="#rs-services">Dedicated Fleet</a></li>
+          <li><a href="#rs-services">Power Only</a></li>
+          <li><a href="#rs-services">Final-Mile Delivery</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#rs-why">Why RydeSmart</a></li>
+          <li><a href="#rs-process">How It Works</a></li>
+          <li><a href="#rs-industries">Industries</a></li>
+          <li><a href="#rs-careers">Drive With Us</a></li>
+          <li><a href="#rs-quote">Get a Quote</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul class="rs-footer__contact">
+          <li><a href="tel:+15551234567">(555) 123-4567</a></li>
+          <li><a href="mailto:dispatch@rydesmartlogistics.com">dispatch@rydesmartlogistics.com</a></li>
+          <li>USDOT #0000000 &nbsp;·&nbsp; MC #000000</li>
+        </ul>
+      </div>
+    </div>
+    <div class="rs-footer__bottom">
+      <div class="rs-container rs-footer__bottom-inner">
+        <span>&copy; <span data-year></span> RydeSmart Logistics. All rights reserved.</span>
+        <a href="#rs-top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <a href="tel:+15551234567" class="rs-call-fab" aria-label="Call RydeSmart dispatch">
+    <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1Z"/></svg>
+  </a>
+</div>
+<script>
+// RydeSmart Logistics — site interactions
+(function () {
+  var root = document.getElementById("rs-site");
+  if (!root) return;
+  // Where quote requests are sent. Replace with the real inbox (or a form service endpoint).
+  var QUOTE_EMAIL = "dispatch@rydesmartlogistics.com";
+
+  // Mobile navigation
+  var toggle = root.querySelector(".rs-nav-toggle");
+  var nav = document.getElementById("rs-nav");
+  if (toggle && nav) {
+    toggle.addEventListener("click", function () {
+      var open = nav.classList.toggle("rs-is-open");
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    });
+    nav.addEventListener("click", function (e) {
+      if (e.target.closest("a")) {
+        nav.classList.remove("rs-is-open");
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.setAttribute("aria-label", "Open menu");
+      }
+    });
+  }
+
+  // Header shadow once the page scrolls
+  var header = root.querySelector(".rs-header");
+  var onScroll = function () { header.classList.toggle("rs-is-scrolled", window.scrollY > 10); };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // Quote forms: open the visitor's email app with the request filled in
+  root.querySelectorAll("[data-quote-form]").forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var lines = [];
+      new FormData(form).forEach(function (value, key) {
+        if (String(value).trim()) {
+          lines.push(key.charAt(0).toUpperCase() + key.slice(1) + ": " + value);
+        }
+      });
+      var subject = "Freight Quote Request - " + (form.elements.service ? form.elements.service.value : "");
+      window.location.href = "mailto:" + QUOTE_EMAIL +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(lines.join("\n"));
+      var note = form.querySelector(".rs-form-note");
+      if (note) note.textContent = "Thanks! Your email app should open with your request. Prefer to talk? Call (555) 123-4567.";
+    });
+  });
+
+  // Fade sections in as they scroll into view
+  var targets = root.querySelectorAll(".rs-service, .rs-why__list li, .rs-step, .rs-industries li, .rs-section__head");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("rs-is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    targets.forEach(function (el) { el.classList.add("rs-reveal"); io.observe(el); });
+  }
+
+  // Footer year
+  var year = root.querySelector("[data-year]");
+  if (year) year.textContent = new Date().getFullYear();
+})();
+</script>
