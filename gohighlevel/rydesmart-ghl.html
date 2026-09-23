@@ -624,6 +624,48 @@ html { scroll-behavior: smooth; scroll-padding-top: 90px; }
 #rs-site .rs-footer__grid { grid-template-columns: 1fr; }
 #rs-site .rs-footer__brand { grid-column: auto; }
 }
+#rs-site .rs-apply-modal {
+  width: min(720px, calc(100vw - 32px));
+  height: min(860px, calc(100vh - 48px));
+  height: min(860px, calc(100dvh - 48px));
+  max-width: none; max-height: none;
+  padding: 0; border: 0; border-radius: 10px;
+  background: var(--white);
+  box-shadow: 0 40px 80px -20px rgba(3,10,30,.6);
+  overflow: hidden;
+}
+#rs-site .rs-apply-modal[open] { display: flex; flex-direction: column; animation: apply-in .35s cubic-bezier(.2,.7,.2,1); }
+#rs-site .rs-apply-modal::backdrop { background: rgba(5,12,32,.72); animation: apply-fade .3s ease; }
+@keyframes apply-in { from { opacity: 0; transform: translateY(18px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes apply-fade { from { opacity: 0; } }
+#rs-site .rs-apply-modal__head {
+  flex: none;
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 18px 20px 16px 26px;
+  background: linear-gradient(90deg, var(--navy), #0d2a7a);
+  border-bottom: 4px solid var(--blue);
+}
+#rs-site .rs-apply-modal__head .rs-eyebrow { margin: 0 0 4px; font-size: .7rem; }
+#rs-site .rs-apply-modal__head h2 { margin: 0; color: var(--white); font-size: 1.55rem; }
+#rs-site .rs-apply-modal__close {
+  flex: none; width: 40px; height: 40px; padding: 0; border-radius: 50%;
+  display: grid; place-items: center;
+  background: transparent; color: var(--white);
+  border: 1px solid rgba(255,255,255,.3);
+  cursor: pointer; transition: background .2s;
+}
+#rs-site .rs-apply-modal__close:hover { background: rgba(255,255,255,.12); }
+#rs-site .rs-apply-modal__close:focus-visible { outline: 2px solid #7fb0ff; outline-offset: 2px; }
+#rs-site .rs-apply-modal__close svg { width: 20px; height: 20px; fill: currentColor; }
+#rs-site .rs-apply-modal__body { position: relative; flex: 1; min-height: 0; background: var(--white); }
+#rs-site .rs-apply-modal__body iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+#rs-site .rs-apply-modal__loading { position: absolute; inset: 0; margin: 0; display: grid; place-items: center; color: var(--muted); }
+#rs-site .rs-apply-modal.rs-is-loaded .rs-apply-modal__loading { display: none; }
+@media (max-width: 600px) {
+#rs-site .rs-apply-modal { width: 100vw; height: 100vh; height: 100dvh; border-radius: 0; }
+#rs-site .rs-apply-modal__head { padding: 14px 14px 12px 18px; }
+#rs-site .rs-apply-modal__head h2 { font-size: 1.3rem; }
+}
 #rs-site .rs-call-fab {
   position: fixed; right: 18px; bottom: 18px; z-index: 60;
   width: 58px; height: 58px; border-radius: 50%;
@@ -638,6 +680,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 90px; }
 html { scroll-behavior: auto; }
 #rs-site .rs-hero__lane { animation: none; }
 #rs-site .rs-btn, #rs-site .rs-service { transition: none; }
+#rs-site .rs-apply-modal[open], #rs-site .rs-apply-modal::backdrop { animation: none; }
 }
 #rs-site { position: relative; width: 100vw; max-width: none; margin-left: calc(50% - 50vw); margin-right: 0; }
 body { overflow-x: clip; }
@@ -1158,7 +1201,7 @@ body { overflow-x: clip; }
           <h2>Drive with RydeSmart</h2>
           <p>Competitive weekly pay, home-time you can plan around, well-maintained equipment and a dispatch team that has your back.</p>
         </div>
-        <a href="https://api.leadconnectorhq.com/widget/form/YwcIHknkQaS5F5jFNbB3" target="_blank" rel="noopener" class="rs-btn rs-btn--light rs-btn--lg"><span>Apply Today</span></a>
+        <a href="https://api.leadconnectorhq.com/widget/form/YwcIHknkQaS5F5jFNbB3" target="_blank" rel="noopener" class="rs-btn rs-btn--light rs-btn--lg" data-driver-form><span>Apply Today</span></a>
       </div>
     </section>
 
@@ -1260,6 +1303,21 @@ body { overflow-x: clip; }
     </div>
   </footer>
 
+  <!-- ===== CDL driver application pop-up (GoHighLevel form, loaded on first open) ===== -->
+  <dialog class="rs-apply-modal" aria-labelledby="apply-title">
+    <div class="rs-apply-modal__head">
+      <div>
+        <p class="rs-eyebrow rs-eyebrow--light">Now Hiring CDL-A Drivers</p>
+        <h2 id="rs-apply-title">Driver Application</h2>
+      </div>
+      <button type="button" class="rs-apply-modal__close" aria-label="Close application"><svg viewBox="0 0 24 24"><path d="M18.3 5.7 16.9 4.3 12 9.2 7.1 4.3 5.7 5.7 10.6 12l-4.9 4.9 1.4 1.4 4.9-4.9 4.9 4.9 1.4-1.4-4.9-4.9z"/></svg></button>
+    </div>
+    <div class="rs-apply-modal__body">
+      <p class="rs-apply-modal__loading">Loading application&hellip;</p>
+      <iframe title="RydeSmart CDL driver application form"></iframe>
+    </div>
+  </dialog>
+
   <a href="tel:+16783158285" class="rs-call-fab" aria-label="Call RydeSmart dispatch">
     <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1Z"/></svg>
   </a>
@@ -1336,6 +1394,38 @@ body { overflow-x: clip; }
       if (note) note.textContent = "Thanks! Your email app should open with your request. Prefer to talk? Call (678) 315-8285.";
     });
   });
+
+  // CDL driver application: open the GoHighLevel form in a pop-up instead of a new tab.
+  // The link still works as a normal new-tab link if JS or <dialog> isn't available.
+  var applyModal = q(".apply-modal");
+  if (applyModal && typeof applyModal.showModal === "function") {
+    var applyFrame = q("iframe", applyModal);
+    var applyTrigger = null;
+    var loadForm = function (link) { if (!applyFrame.getAttribute("src")) applyFrame.src = link.href; };
+    applyFrame.addEventListener("load", function () { applyModal.classList.add(cls("is-loaded")); });
+    qa("[data-driver-form]").forEach(function (link) {
+      // Start loading as soon as the visitor shows intent, so the form is ready on open.
+      link.addEventListener("pointerenter", function () { loadForm(link); });
+      link.addEventListener("focus", function () { loadForm(link); });
+      link.addEventListener("click", function (e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; // let "open in new tab" work
+        e.preventDefault();
+        loadForm(link);
+        applyTrigger = link;
+        var docEl = document.documentElement;
+        docEl.style.paddingRight = (window.innerWidth - docEl.clientWidth) + "px";
+        docEl.style.overflow = "hidden";
+        applyModal.showModal();
+      });
+    });
+    q(".apply-modal__close", applyModal).addEventListener("click", function () { applyModal.close(); });
+    applyModal.addEventListener("click", function (e) { if (e.target === applyModal) applyModal.close(); }); // backdrop
+    applyModal.addEventListener("close", function () {
+      document.documentElement.style.overflow = "";
+      document.documentElement.style.paddingRight = "";
+      if (applyTrigger) applyTrigger.focus({ preventScroll: true });
+    });
+  }
 
   // Footer year
   var year = q("[data-year]");

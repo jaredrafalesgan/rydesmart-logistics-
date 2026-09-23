@@ -54,7 +54,7 @@ simply won't apply to a flat photo.
 ## Contact info
 - Phone: (678) 315-8285
 - Email: Admin@rydesmartlogistics.com (quote forms go here; set in `QUOTE_EMAIL` in `js/main.js`)
-- CDL driver applications: "Apply Today" opens the GoHighLevel form at https://api.leadconnectorhq.com/widget/form/YwcIHknkQaS5F5jFNbB3
+- CDL driver applications: "Apply Today" opens the GoHighLevel form (https://api.leadconnectorhq.com/widget/form/YwcIHknkQaS5F5jFNbB3) in a pop-up on the page (`.apply-modal` in `index.html`); without JavaScript it opens in a new tab
 
 ## Placeholder info to replace before going live
 - USDOT / MC numbers in the footer

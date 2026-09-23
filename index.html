@@ -528,7 +528,7 @@
           <h2>Drive with RydeSmart</h2>
           <p>Competitive weekly pay, home-time you can plan around, well-maintained equipment and a dispatch team that has your back.</p>
         </div>
-        <a href="https://api.leadconnectorhq.com/widget/form/YwcIHknkQaS5F5jFNbB3" target="_blank" rel="noopener" class="btn btn--light btn--lg"><span>Apply Today</span></a>
+        <a href="https://api.leadconnectorhq.com/widget/form/YwcIHknkQaS5F5jFNbB3" target="_blank" rel="noopener" class="btn btn--light btn--lg" data-driver-form><span>Apply Today</span></a>
       </div>
     </section>
 
@@ -629,6 +629,21 @@
       </div>
     </div>
   </footer>
+
+  <!-- ===== CDL driver application pop-up (GoHighLevel form, loaded on first open) ===== -->
+  <dialog class="apply-modal" aria-labelledby="apply-title">
+    <div class="apply-modal__head">
+      <div>
+        <p class="eyebrow eyebrow--light">Now Hiring CDL-A Drivers</p>
+        <h2 id="apply-title">Driver Application</h2>
+      </div>
+      <button type="button" class="apply-modal__close" aria-label="Close application"><svg viewBox="0 0 24 24"><path d="M18.3 5.7 16.9 4.3 12 9.2 7.1 4.3 5.7 5.7 10.6 12l-4.9 4.9 1.4 1.4 4.9-4.9 4.9 4.9 1.4-1.4-4.9-4.9z"/></svg></button>
+    </div>
+    <div class="apply-modal__body">
+      <p class="apply-modal__loading">Loading application&hellip;</p>
+      <iframe title="RydeSmart CDL driver application form"></iframe>
+    </div>
+  </dialog>
 
   <a href="tel:+16783158285" class="call-fab" aria-label="Call RydeSmart dispatch">
     <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1Z"/></svg>

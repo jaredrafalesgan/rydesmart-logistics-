@@ -70,6 +70,38 @@
     });
   });
 
+  // CDL driver application: open the GoHighLevel form in a pop-up instead of a new tab.
+  // The link still works as a normal new-tab link if JS or <dialog> isn't available.
+  var applyModal = q(".apply-modal");
+  if (applyModal && typeof applyModal.showModal === "function") {
+    var applyFrame = q("iframe", applyModal);
+    var applyTrigger = null;
+    var loadForm = function (link) { if (!applyFrame.getAttribute("src")) applyFrame.src = link.href; };
+    applyFrame.addEventListener("load", function () { applyModal.classList.add(cls("is-loaded")); });
+    qa("[data-driver-form]").forEach(function (link) {
+      // Start loading as soon as the visitor shows intent, so the form is ready on open.
+      link.addEventListener("pointerenter", function () { loadForm(link); });
+      link.addEventListener("focus", function () { loadForm(link); });
+      link.addEventListener("click", function (e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; // let "open in new tab" work
+        e.preventDefault();
+        loadForm(link);
+        applyTrigger = link;
+        var docEl = document.documentElement;
+        docEl.style.paddingRight = (window.innerWidth - docEl.clientWidth) + "px";
+        docEl.style.overflow = "hidden";
+        applyModal.showModal();
+      });
+    });
+    q(".apply-modal__close", applyModal).addEventListener("click", function () { applyModal.close(); });
+    applyModal.addEventListener("click", function (e) { if (e.target === applyModal) applyModal.close(); }); // backdrop
+    applyModal.addEventListener("close", function () {
+      document.documentElement.style.overflow = "";
+      document.documentElement.style.paddingRight = "";
+      if (applyTrigger) applyTrigger.focus({ preventScroll: true });
+    });
+  }
+
   // Footer year
   var year = q("[data-year]");
   if (year) year.textContent = new Date().getFullYear();
