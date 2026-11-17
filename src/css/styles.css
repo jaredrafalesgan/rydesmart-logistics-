@@ -556,8 +556,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px soli
 
 /* Page entrance (subtle) */
 @media (prefers-reduced-motion: no-preference) {
-  main { animation: page-in .45s ease-out both; }
-  @keyframes page-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  /* Opacity only: a transform here (even one that has finished) breaks the pinned truck section. */
+  main { animation: page-in .4s ease-out; }
+  @keyframes page-in { from { opacity: 0; } }
 }
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
 .reveal.is-in { opacity: 1; transform: none; }

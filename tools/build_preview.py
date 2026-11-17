@@ -61,14 +61,15 @@ def main():
                      f'{main_inner(pages[slug])}</div>')
     doc = before + '<main id="main" tabindex="-1">' + "\n".join(views) + "</main>" + after
     doc = doc.replace(' aria-current="page"', "")
+    # Embed images first: rewrite_links would otherwise turn href="/assets/…" into a page link.
+    for img in ("assets/logo.png", "assets/logo-light.png"):
+        doc = doc.replace(f'"/{img}"', f'"{img_uri(img)}"')
     doc = rewrite_links(doc)
     # Embedded third-party forms can't load in a sandboxed preview: open them in a new tab instead.
     doc = doc.replace(" data-driver-form", "")
     doc = re.sub(r'<div class="ghl-form"[^>]*>\s*<iframe src="([^"]+)"[^>]*></iframe>\s*</div>',
                  r'<p class="empty-note">The GoHighLevel form appears here on the live site. '
                  r'<a href="\1" target="_blank" rel="noopener">Open the form in a new tab</a>.</p>', doc)
-    for img in ("assets/logo.png", "assets/logo-light.png"):
-        doc = doc.replace(f'"/{img}"', f'"{img_uri(img)}"')
     assert '"/assets/' not in doc, re.findall(r'"/assets/[^"]+"', doc)[:3]
 
     gsap = "".join((ROOT / f"src/js/vendor/{f}").read_text() + "\n" for f in ("gsap.min.js", "ScrollTrigger.min.js"))
