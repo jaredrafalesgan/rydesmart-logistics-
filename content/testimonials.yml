@@ -1,0 +1,49 @@
+# =====================================================================
+#  Testimonials
+# =====================================================================
+#  Publish only GENUINE reviews, with the customer's permission to use
+#  their name/company. Set verified: true for a real, approved review.
+#
+#  verified: false entries are SAMPLE placeholders. They appear only while
+#  show_placeholders is on, each labeled "Sample review", and are removed
+#  from the site entirely when show_placeholders is false.
+#
+#  Fields: quote, name, title, company, location, verified, permission_date
+# =====================================================================
+
+testimonials:
+  - quote: RydeSmart made our freight shipments much easier to manage. Communication was clear, pickup was on schedule, and we always knew where our loads were.
+    name: Michael Carter
+    title: Operations Manager
+    location: Atlanta, GA
+    verified: false
+
+  - quote: We needed a reliable transportation partner for time-sensitive shipments. The RydeSmart team has been responsive and dependable from pickup to delivery.
+    name: Jessica Williams
+    title: Logistics Coordinator
+    location: Charlotte, NC
+    verified: false
+
+  - quote: The biggest difference is the communication. We get updates when we need them, and the dispatch team is easy to reach whenever something changes.
+    name: David Thompson
+    title: Fleet Manager
+    location: Nashville, TN
+    verified: false
+
+  - quote: RydeSmart has helped us keep our deliveries moving without the usual back-and-forth. Their team understands the importance of timing and communication.
+    name: Robert Anderson
+    title: Supply Chain Manager
+    location: Orlando, FL
+    verified: false
+
+  - quote: From requesting a quote to receiving the delivery, the process was straightforward. The team kept us informed throughout the shipment.
+    name: Ashley Morgan
+    title: Shipping Manager
+    location: Birmingham, AL
+    verified: false
+
+  - quote: We were looking for a transportation company that would actually communicate with us. RydeSmart has been professional, responsive, and easy to work with.
+    name: Daniel Brooks
+    title: Business Owner
+    location: Jacksonville, FL
+    verified: false

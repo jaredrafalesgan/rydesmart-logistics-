@@ -1,0 +1,46 @@
+# =====================================================================
+#  Careers / Drive With Us
+# =====================================================================
+#  Positions: list only roles you are hiring for now.
+#  Requirements, pay and home time: enter only what is accurate.
+#  Applications go to the GoHighLevel driver application form set in
+#  company.yml → integrations.ghl_forms.driver_application.
+# =====================================================================
+
+intro: >-
+  We're building a team of professional CDL-A drivers who take safety seriously
+  and take pride in on-time, damage-free delivery. If that's how you drive,
+  we'd like to talk.
+
+positions:
+  - title: Company Driver — CDL-A
+    type: ""            # e.g. "Regional", "OTR", "Local"
+    route: ""           # e.g. "Southeast regional, home weekly"
+    equipment: ""       # e.g. "53' dry van"
+    pay: ""             # only if confirmed, e.g. "$0.00–$0.00 per mile"
+    home_time: ""
+    status: open        # open | closed
+    example: true
+
+requirements:
+  - Valid Class A commercial driver's license (CDL-A)
+  - Current DOT medical card
+# Add only requirements you actually use, e.g.:
+#  - Minimum 2 years verifiable CDL-A experience
+#  - Clean MVR (no major violations in the last 3 years)
+#  - Pass a DOT drug screen and FMCSA Clearinghouse query
+
+what_to_expect: []
+#  - Well-maintained equipment
+#  - Weekly settlements
+#  - One dispatcher who knows your schedule
+
+faqs:
+  - q: How do I apply?
+    a: Select "Apply now" on this page and complete the online driver application. It takes about 10 minutes. Our recruiting team reviews every application and contacts qualified drivers directly.
+  - q: What happens after I apply?
+    a: We review your application, then contact you to talk through the position. Before you drive for us we complete the checks required for commercial drivers, including your driving record, a DOT drug screen and an FMCSA Clearinghouse query.
+  - q: Can I call with questions first?
+    a: Yes. Call our main line and ask for driver recruiting.
+  - q: Do you hire owner-operators?
+    a: ""     # answer once decided, or delete this question

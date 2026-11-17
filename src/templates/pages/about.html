@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% block content %}
+{% call m.page_hero("About us", "A dependable carrier built on clear communication", company.name ~ " is a freight transportation company focused on safe, on-time service and long-term relationships with brokers and shippers.") %}{% endcall %}
+
+    <section class="section">
+      <div class="container about-intro">
+        <div class="prose">
+          <h2>Who we are</h2>
+          <p>{{ company.name }} is a trucking company{% if company.home_base %} based in {{ company.home_base }}{% endif %}. We haul freight for brokers and shippers who want a carrier that confirms the details, communicates on the road, and closes out every load cleanly.</p>
+          <p>We'd rather earn repeat freight from a partner than chase one-off loads. That means saying yes only when we have the right equipment and timing — and following through when we do.</p>
+          {%- if show_placeholders %}
+          <p class="tbc tbc--block">Add your story here: when the company started{{ ', ' }}who founded it, where you operate and what you haul. Only confirmed facts.</p>
+          {%- endif %}
+        </div>
+        <aside class="fact-card">
+          <h3>At a glance</h3>
+          <dl class="cred-list">
+            <div><dt>Company</dt><dd>{{ company.legal_name or company.name }}</dd></div>
+            {%- if company.founded or show_placeholders %}<div><dt>Established</dt><dd>{{ m.tbc(company.founded) }}</dd></div>{% endif %}
+            {%- if company.home_base or show_placeholders %}<div><dt>Home base</dt><dd>{{ m.tbc(company.home_base) }}</dd></div>{% endif %}
+            {%- if company.usdot or show_placeholders %}<div><dt>USDOT</dt><dd>{{ m.tbc(company.usdot) }}</dd></div>{% endif %}
+            {%- if company.mc or show_placeholders %}<div><dt>MC</dt><dd>{{ m.tbc(company.mc) }}</dd></div>{% endif %}
+            <div><dt>Phone</dt><dd><a href="tel:{{ company.phone_e164 }}">{{ company.phone }}</a></dd></div>
+          </dl>
+          <a href="{{ url('broker-resources') }}" class="text-link">Credentials &amp; verification {{ m.icon("arrow") }}</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section section--tint">
+      <div class="container mv">
+        <div class="mv__item">
+          <p class="eyebrow">Mission</p>
+          <p class="mv__text">Move our partners' freight safely and on time, and be the carrier that's easy to work with.</p>
+        </div>
+        <div class="mv__item">
+          <p class="eyebrow">Vision</p>
+          <p class="mv__text">To be a trusted, long-term transportation partner known for reliability, transparency and professional service.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Our values</p>
+          <h2>How we operate</h2>
+        </div>
+        <ul class="values">
+          <li><h3>Safety first</h3><p>No load is worth cutting corners. Inspections, hours-of-service and careful driving come first.</p></li>
+          <li><h3>Communication</h3><p>We tell you what's happening before you have to ask — including when plans change.</p></li>
+          <li><h3>Accountability</h3><p>We confirm what we can do, then do what we confirmed.</p></li>
+          <li><h3>Respect</h3><p>For our drivers, our partners, shippers' docks and everyone sharing the road.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--tint">
+      <div class="container approach">
+        <div>
+          <p class="eyebrow">Business approach</p>
+          <h2>How we work with brokers and shippers</h2>
+          <p class="intro__lead">A simple, consistent process on every load.</p>
+        </div>
+        <ol class="approach__list">
+          <li><strong>Before dispatch</strong><span>We confirm equipment, pickup and delivery appointments, commodity, weight and rate in writing.</span></li>
+          <li><strong>At pickup</strong><span>We let you know when we're loaded and rolling, along with any issue found at the dock.</span></li>
+          <li><strong>In transit</strong><span>Status updates on schedule, and immediate notice if anything affects the delivery time.</span></li>
+          <li><strong>At delivery</strong><span>Signed proof of delivery and an accurate invoice, promptly.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    {%- if leadership or show_placeholders %}
+    <section class="section">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Leadership</p>
+          <h2>The people behind {{ company.name }}</h2>
+        </div>
+        {%- if leadership %}
+        <ul class="team">
+          {%- for p in leadership %}
+          <li class="team__card">
+            {%- if p.photo %}<img src="{{ asset(p.photo) }}" alt="{{ p.name }}" loading="lazy" width="320" height="320">{% else %}<span class="team__initials" aria-hidden="true">{{ p.name.split()|map('first')|join }}</span>{% endif %}
+            <h3>{{ p.name }}</h3><p class="team__title">{{ p.title }}</p>{% if p.bio %}<p>{{ p.bio }}</p>{% endif %}
+          </li>
+          {%- endfor %}
+        </ul>
+        {%- else %}
+        <p class="tbc tbc--block">Add leadership or key contacts in content/company.yml → leadership (only people who approved being listed). This section is hidden until then.</p>
+        {%- endif %}
+      </div>
+    </section>
+    {%- endif %}
+
+    <section class="section section--tint">
+      <div class="container location">
+        <div>
+          <p class="eyebrow">Location &amp; contact</p>
+          <h2>Get in touch</h2>
+          <ul class="contact-lines">
+            <li>{{ m.icon("pin") }}<span>{{ m.tbc(address_line, "Business address to be confirmed") }}</span></li>
+            <li>{{ m.icon("phone") }}<a href="tel:{{ company.phone_e164 }}">{{ company.phone }}</a></li>
+            <li>{{ m.icon("mail") }}<a href="mailto:{{ company.email }}">{{ company.email }}</a></li>
+            {%- if company.hours or show_placeholders %}<li>{{ m.icon("clock") }}<span>{{ m.tbc(company.hours, "Business hours to be confirmed") }}</span></li>{% endif %}
+          </ul>
+        </div>
+        <div class="location__cta">
+          <a href="{{ url('contact') }}" class="btn btn--navy"><span>Contact our team</span></a>
+          <a href="{{ url('request-capacity') }}" class="btn btn--primary"><span>Request capacity</span></a>
+        </div>
+      </div>
+    </section>
+{% include "partials/final-cta.html" %}
+{% endblock %}

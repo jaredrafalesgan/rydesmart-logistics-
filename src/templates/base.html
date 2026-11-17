@@ -1,0 +1,141 @@
+{%- import "macros.html" as m with context -%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }}</title>
+  <meta name="description" content="{{ page.description }}">
+  <link rel="canonical" href="{{ page.canonical }}">
+  {%- if show_placeholders %}
+  <meta name="robots" content="noindex">
+  {%- endif %}
+  <meta name="theme-color" content="#0a1636">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ company.name }}">
+  <meta property="og:title" content="{{ page.og_title }}">
+  <meta property="og:description" content="{{ page.description }}">
+  <meta property="og:url" content="{{ page.canonical }}">
+  <meta property="og:image" content="{{ abs_url(site.og_image) }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="{{ asset('assets/favicon.png') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,500;0,600;0,700;0,800;1,700;1,800;1,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+  {%- for block in page.jsonld %}
+  <script type="application/ld+json">{{ block|tojson }}</script>
+  {%- endfor %}
+</head>
+<body class="page-{{ page.slug or 'home' }}">
+  <a class="skip-link" href="#main">Skip to content</a>
+  {%- if show_placeholders %}
+  <aside class="preview-bar" aria-label="Preview notice">Preview — items marked <span class="tbc">To be confirmed</span> or labeled as examples need company details before launch.</aside>
+  {%- endif %}
+
+  <div class="topbar" role="region" aria-label="Credentials and contact">
+    <div class="container topbar__inner">
+      <div class="topbar__info">
+        <span class="topbar__cred">USDOT {{ m.tbc(company.usdot, "pending") }}</span>
+        <span class="topbar__cred">MC {{ m.tbc(company.mc, "pending") }}</span>
+        {%- if company.usdot %}<a class="hide-sm" href="{{ fmcsa.safer_dot }}" target="_blank" rel="noopener">Verify on FMCSA SAFER</a>{% endif %}
+      </div>
+      <div class="topbar__contact">
+        <a href="mailto:{{ company.email }}" class="hide-sm">{{ m.icon("mail") }} {{ company.email }}</a>
+        <a href="tel:{{ company.phone_e164 }}" class="topbar__phone">{{ m.icon("phone") }} {{ company.phone }}</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="header" id="top">
+    <div class="container header__inner">
+      <a href="{{ url('') }}" class="brand" aria-label="{{ company.name }} home">
+        <img src="{{ asset('assets/logo.png') }}" alt="{{ company.name }}" width="722" height="139">
+      </a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="nav" aria-label="Main">
+        {%- for slug, label in nav %}
+        <a href="{{ url(slug) }}"{% if page.slug == slug %} aria-current="page"{% endif %}>{{ label }}</a>
+        {%- endfor %}
+        <a href="{{ url('request-capacity') }}" class="btn btn--primary nav__cta"{% if page.slug == 'request-capacity' %} aria-current="page"{% endif %}><span>Request Capacity</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <img src="{{ asset('assets/logo-light.png') }}" alt="{{ company.name }}" width="722" height="139" loading="lazy">
+        <p>{{ company.tagline }}</p>
+        <dl class="footer__cred">
+          <div><dt>USDOT</dt><dd>{{ m.tbc(company.usdot, "pending") }}</dd></div>
+          <div><dt>MC</dt><dd>{{ m.tbc(company.mc, "pending") }}</dd></div>
+        </dl>
+      </div>
+      <div>
+        <h2 class="footer__title">Company</h2>
+        <ul>
+          <li><a href="{{ url('about') }}">About us</a></li>
+          <li><a href="{{ url('fleet') }}">Fleet &amp; equipment</a></li>
+          <li><a href="{{ url('lanes') }}">Lanes &amp; service areas</a></li>
+          <li><a href="{{ url('careers') }}">Drive with us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__title">Brokers &amp; shippers</h2>
+        <ul>
+          <li><a href="{{ url('request-capacity') }}">Request capacity</a></li>
+          <li><a href="{{ url('broker-resources') }}">Broker &amp; shipper resources</a></li>
+          <li><a href="{{ url('broker-resources') }}#documents">Request carrier documents</a></li>
+          <li><a href="{{ url('contact') }}">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__title">Contact</h2>
+        <ul class="footer__contact">
+          <li><a href="tel:{{ company.phone_e164 }}">{{ company.phone }}</a></li>
+          <li><a href="mailto:{{ company.email }}">{{ company.email }}</a></li>
+          {%- if address_line %}<li>{{ address_line }}</li>{% elif show_placeholders %}<li>{{ m.tbc("", "Business address to be confirmed") }}</li>{% endif %}
+          {%- if company.hours %}<li>{{ company.hours }}</li>{% endif %}
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="container footer__bottom-inner">
+        <span>&copy; <span data-year>{{ year }}</span> {{ company.legal_name or company.name }}. All rights reserved.</span>
+        <span>Verify any carrier's current authority and insurance with <a href="{{ fmcsa.safer_dot if company.usdot else fmcsa.safer_home }}" target="_blank" rel="noopener">FMCSA</a>.</span>
+      </div>
+    </div>
+  </footer>
+
+  {%- if integrations.ghl_forms.driver_application %}
+  <dialog class="apply-modal" aria-labelledby="apply-title">
+    <div class="apply-modal__head">
+      <div>
+        <p class="eyebrow eyebrow--light">Now Hiring CDL-A Drivers</p>
+        <h2 id="apply-title">Driver Application</h2>
+      </div>
+      <button type="button" class="apply-modal__close" aria-label="Close application"><svg viewBox="0 0 24 24"><path d="M18.3 5.7 16.9 4.3 12 9.2 7.1 4.3 5.7 5.7 10.6 12l-4.9 4.9 1.4 1.4 4.9-4.9 4.9 4.9 1.4-1.4-4.9-4.9z"/></svg></button>
+    </div>
+    <div class="apply-modal__body">
+      <p class="apply-modal__loading">Loading application&hellip;</p>
+      <iframe title="{{ company.name }} CDL driver application form"></iframe>
+    </div>
+  </dialog>
+  {%- endif %}
+
+  <a href="tel:{{ company.phone_e164 }}" class="call-fab" aria-label="Call {{ company.name }}">{{ m.icon("phone") }}</a>
+
+  {%- if page.gsap %}
+  <script src="{{ asset('js/vendor/gsap.min.js') }}"></script>
+  <script src="{{ asset('js/vendor/ScrollTrigger.min.js') }}"></script>
+  {%- endif %}
+  <script src="{{ asset('js/main.js') }}"></script>
+</body>
+</html>

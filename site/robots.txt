@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /
+# Preview mode (show_placeholders: true) — indexing disabled until launch.
+Sitemap: https://www.rydesmartlogistics.com/sitemap.xml

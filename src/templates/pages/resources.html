@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% block content %}
+{% call m.page_hero("Broker & shipper resources", "Carrier information for brokers and shippers", "Everything you need to evaluate and set up " ~ company.name ~ ": our identifiers, links to official FMCSA records, and how to request onboarding documents.") %}
+    <nav class="jump-links" aria-label="On this page">
+      <a href="#identification">Company identification</a><a href="#authority">Operating authority</a><a href="#insurance">Insurance</a><a href="#documents">Request documents</a><a href="#fraud">Identity &amp; fraud prevention</a>
+    </nav>
+{% endcall %}
+
+    <section class="section" id="identification">
+      <div class="container res-grid">
+        <div>
+          <p class="eyebrow">Company identification</p>
+          <h2>Our identifiers</h2>
+          <p>These should match our FMCSA registration exactly. If anything you see elsewhere doesn't match, call us at the number below before tendering a load.</p>
+        </div>
+        <div class="res-card">
+          {{ m.credential_list() }}
+          {%- if company.primary_contact.name or show_placeholders %}
+          <dl class="cred-list cred-list--contact">
+            <div><dt>Primary business contact</dt><dd>{{ m.tbc(company.primary_contact.name) }}{% if company.primary_contact.title %}, {{ company.primary_contact.title }}{% endif %}</dd></div>
+          </dl>
+          {%- endif %}
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tint" id="authority">
+      <div class="container res-grid">
+        <div>
+          <p class="eyebrow">Operating authority &amp; safety</p>
+          <h2>Check our records with FMCSA</h2>
+          <p>Our authority status, insurance filings and safety data are maintained by the Federal Motor Carrier Safety Administration — not by us. Always check the official source.</p>
+        </div>
+        <div class="res-card">
+          <ul class="res-steps">
+            <li><strong>SAFER Company Snapshot</strong><span>Operating status, authority, carrier details and inspection/crash summary.{% if not company.usdot %} Search by USDOT or MC number.{% endif %}</span></li>
+            <li><strong>Licensing &amp; Insurance (L&amp;I)</strong><span>Active authority and insurance filings on record. Search by {% if company.usdot %}USDOT <b>{{ company.usdot }}</b>{% else %}USDOT or MC number{% endif %}.</span></li>
+            {%- if company.usdot %}<li><strong>Safety Measurement System (SMS)</strong><span>Roadside inspection and safety performance data.</span></li>{% endif %}
+          </ul>
+          {{ m.verify_links() }}
+          <p class="res-fine">Links open official FMCSA websites. {{ company.name }} is not endorsed by FMCSA; these records are public information.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="insurance">
+      <div class="container res-grid">
+        <div>
+          <p class="eyebrow">Insurance</p>
+          <h2>Certificates of insurance</h2>
+          <p>We don't post insurance documents publicly. Authorized brokers and shippers can request a certificate naming them as certificate holder; it's issued by our insurance agent.</p>
+        </div>
+        <div class="res-card">
+          <dl class="cred-list">
+            <div><dt>Auto liability</dt><dd>{{ m.tbc(insurance.auto_liability, "Limit to be confirmed") }}</dd></div>
+            <div><dt>Cargo</dt><dd>{{ m.tbc(insurance.cargo, "Limit to be confirmed") }}</dd></div>
+            {%- if insurance.agent or show_placeholders %}<div><dt>Insurance agent</dt><dd>{{ m.tbc(insurance.agent) }}</dd></div>{% endif %}
+          </dl>
+          <a href="#documents" class="btn btn--navy"><span>Request a certificate of insurance</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tint" id="documents">
+      <div class="container res-grid res-grid--form">
+        <div>
+          <p class="eyebrow">Onboarding documents</p>
+          <h2>Request our carrier packet</h2>
+          <p>Tell us who you are and what you need. Documents are sent directly to your business email — never posted publicly.</p>
+          <ul class="doc-list">
+            <li>{{ m.icon("doc") }} Carrier packet / setup</li>
+            <li>{{ m.icon("doc") }} W-9</li>
+            <li>{{ m.icon("doc") }} Certificate of insurance</li>
+            <li>{{ m.icon("doc") }} Operating authority letter</li>
+          </ul>
+          <p class="res-fine">Using a carrier onboarding platform? Send the invitation to <a href="mailto:{{ dept_email('broker') }}">{{ dept_email('broker') }}</a>.</p>
+        </div>
+        <div class="form-card">
+          {%- if integrations.ghl_forms.documents %}
+          {{ m.ghl_frame(integrations.ghl_forms.documents, "Carrier document request form") }}
+          {%- else %}
+          {% call m.form_shell("documents", "Request documents") %}
+          <fieldset class="form-group">
+            <legend>Documents needed <abbr title="required">*</abbr></legend>
+            <div class="checks" data-require-one>
+              <label><input type="checkbox" name="documents" value="Carrier packet"> Carrier packet / setup</label>
+              <label><input type="checkbox" name="documents" value="W-9"> W-9</label>
+              <label><input type="checkbox" name="documents" value="Certificate of insurance"> Certificate of insurance</label>
+              <label><input type="checkbox" name="documents" value="Authority letter"> Operating authority letter</label>
+            </div>
+            <span class="field__error" aria-live="polite"></span>
+          </fieldset>
+          <div class="form-grid">
+            {{ m.field("name", "Full name", required=True, autocomplete="name") }}
+            {{ m.field("company", "Company", required=True, autocomplete="organization") }}
+            {{ m.field("email", "Business email", "email", required=True, autocomplete="email", hint="Documents are sent only to this address.") }}
+            {{ m.field("phone", "Phone", "tel", required=True, autocomplete="tel") }}
+            {{ m.field("mc_number", "Your MC / broker number", hint="Helps us verify your request.") }}
+            {{ m.field("certificate_holder", "Certificate holder (for COI)", placeholder="Legal name and address") }}
+            {{ m.field("message", "Notes", "textarea", span=True) }}
+          </div>
+          {% endcall %}
+          {%- endif %}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="fraud">
+      <div class="container res-grid">
+        <div>
+          <p class="eyebrow">Identity &amp; fraud prevention</p>
+          <h2>Make sure you're dealing with us</h2>
+          <p>Carrier identity fraud and double brokering are real risks. Here's how to confirm a request really comes from {{ company.name }}.</p>
+        </div>
+        <div class="res-card">
+          <ul class="res-steps">
+            <li><strong>Official contact details</strong><span>We use <b>{{ company.phone }}</b> and email addresses ending in <b>@{{ email_domain }}</b>. These should match our FMCSA record.</span></li>
+            <li><strong>Payment changes</strong><span>We never change remittance or factoring details by email alone. Call us to confirm any change.</span></li>
+            <li><strong>If something looks off</strong><span>Call <a href="tel:{{ company.phone_e164 }}">{{ company.phone }}</a> before releasing a load.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+{% include "partials/testimonials.html" %}
+{% include "partials/final-cta.html" %}
+{% endblock %}

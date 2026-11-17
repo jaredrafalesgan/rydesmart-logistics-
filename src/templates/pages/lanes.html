@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% block content %}
+{% call m.page_hero("Lanes & service areas", "Where we run", "Preferred lanes and the states we serve. Have freight on one of these lanes? Request capacity and we'll confirm availability.") %}
+    <div class="page-hero__actions"><a href="{{ url('request-capacity') }}" class="btn btn--primary btn--lg"><span>Request Capacity on a Lane</span></a></div>
+{% endcall %}
+
+    <section class="section">
+      <div class="container lanes-top">
+        {{ m.coverage_map() }}
+        <aside class="coverage-card">
+          <h2>Coverage</h2>
+          <dl class="cred-list">
+            <div><dt>Coverage</dt><dd>{{ m.tbc(coverage.scope|capitalize if coverage.scope else "") }}</dd></div>
+            <div><dt>Home base</dt><dd>{{ m.tbc(coverage.home_base or company.home_base) }}</dd></div>
+            <div><dt>States served</dt><dd>{% if coverage.states %}{{ coverage.states|length }}{% else %}{{ m.tbc("") }}{% endif %}</dd></div>
+          </dl>
+          {%- if coverage.summary %}<p>{{ coverage.summary }}</p>{% endif %}
+          {%- if coverage.states %}
+          <ul class="state-chips" aria-label="States served">
+            {%- for s in coverage.states %}<li title="{{ usmap.states[s].name if s in usmap.states else s }}">{{ s }}</li>{% endfor %}
+          </ul>
+          {%- endif %}
+        </aside>
+      </div>
+    </section>
+
+    {%- if corridors %}
+    <section class="section section--tint">
+      <div class="container">
+        <div class="section__head"><p class="eyebrow">Freight corridors</p><h2>Preferred corridors</h2></div>
+        <ul class="corridors">{% for c in corridors %}<li><h3>{{ c.name }}</h3><p>{{ c.description }}</p></li>{% endfor %}</ul>
+      </div>
+    </section>
+    {%- endif %}
+
+    <section class="section{{ '' if corridors else ' section--tint' }}">
+      <div class="container">
+        <div class="section__head section__head--split">
+          <div><p class="eyebrow">Lane directory</p><h2>Preferred lanes</h2></div>
+          {%- if lanes and lane_states|length > 1 %}
+          <label class="lane-filter">Filter by state
+            <select data-lane-filter>
+              <option value="">All states</option>
+              {%- for s in lane_states %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
+            </select>
+          </label>
+          {%- endif %}
+        </div>
+        {%- if lanes %}
+        <div class="lane-table" role="table" aria-label="Preferred lanes">
+          <div class="lane-row lane-row--head" role="row">
+            <span role="columnheader">Origin</span><span role="columnheader">Destination</span><span role="columnheader">Equipment</span><span role="columnheader">Frequency</span><span role="columnheader"><span class="sr-only">Action</span></span>
+          </div>
+          {%- for l in lanes %}
+          <div class="lane-row{{ ' is-example' if l.example }}" role="row" data-lane="{{ loop.index0 }}" data-states="{{ l.states|join(' ') }}">
+            <span role="cell" data-label="Origin"><strong>{{ l.origin }}</strong>{% if l.example %} <span class="example-tag example-tag--inline">Example</span>{% endif %}</span>
+            <span role="cell" data-label="Destination"><strong>{{ l.destination }}</strong>{% if l.direction == 'round-trip' %} <span class="lane-rt">round-trip</span>{% endif %}</span>
+            <span role="cell" data-label="Equipment">{{ l.equipment_names|join(', ') or m.tbc('') }}</span>
+            <span role="cell" data-label="Frequency">{{ m.tbc(l.frequency) }}</span>
+            <span role="cell"><a class="btn btn--small btn--outline" href="{{ url('request-capacity') }}?origin={{ l.origin|urlencode }}&amp;destination={{ l.destination|urlencode }}{% if l.equipment %}&amp;equipment={{ l.equipment[0] }}{% endif %}"><span>Request capacity</span></a></span>
+          </div>
+          {%- if l.notes %}<p class="lane-note">{{ l.notes }}</p>{% endif %}
+          {%- endfor %}
+        </div>
+        <p class="filters__empty" hidden>No lanes for that state yet — <a href="{{ url('request-capacity') }}">ask us anyway</a>.</p>
+        {%- else %}
+        <p class="empty-note">Preferred lanes are being updated. <a href="{{ url('request-capacity') }}">Send us your lane</a> and we'll confirm availability.</p>
+        {%- endif %}
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split-cta">
+        <div>
+          <h2>Freight on a lane that isn't listed?</h2>
+          <p>Send it anyway. We'll tell you quickly whether we can cover it.</p>
+        </div>
+        <a href="{{ url('request-capacity') }}" class="btn btn--primary btn--lg"><span>Request Capacity on a Lane</span></a>
+      </div>
+    </section>
+{% endblock %}

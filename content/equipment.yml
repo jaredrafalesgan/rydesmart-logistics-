@@ -1,0 +1,53 @@
+# =====================================================================
+#  Fleet & equipment — shown on the Fleet page and the homepage
+# =====================================================================
+#  List ONLY equipment RydeSmart owns, operates or has confirmed access to.
+#  Add one block per equipment type (or per unit, if you prefer).
+#
+#  Fields
+#    id         short unique name, no spaces (used to link lanes to equipment)
+#    name       what brokers search for, e.g. "53' Dry Van"
+#    category   used for the filter buttons, e.g. Dry Van, Reefer, Flatbed, Power Only
+#    photo      YOUR OWN photo only, e.g. assets/fleet/dry-van-1.jpg (put the file in src/assets/fleet/)
+#    specs      label: value pairs; leave a value "" if not confirmed
+#    freight    types of freight this equipment is used for
+#    features   extras such as "Air-ride suspension", "E-track", "Load locks"
+#    status     available | limited | committed | coming_soon  (or "" if unknown)
+#    units      how many of this type, or "" to not show a count
+#    example    true = sample entry; shown (clearly labeled) only while
+#               show_placeholders is on. Delete example entries once real ones are added.
+# =====================================================================
+
+equipment:
+  - id: dry-van-53
+    name: 53' Dry Van
+    category: Dry Van
+    example: true
+    photo: ""
+    units: ""
+    status: ""
+    specs:
+      Trailer length: 53 ft
+      Interior (L × W × H): ""
+      Pallet capacity: ""
+      Max legal payload: ""
+      Door type: ""
+      Floor: ""
+    freight:
+      - Palletized freight
+      - Floor-loaded freight
+    features: []
+
+  - id: power-unit
+    name: Sleeper tractor (power unit)
+    category: Tractor
+    example: true
+    photo: ""
+    units: ""
+    status: ""
+    specs:
+      Configuration: ""
+      Year / make: ""
+      ELD: ""
+    freight: []
+    features: []

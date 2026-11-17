@@ -1,0 +1,56 @@
+# =====================================================================
+#  Lanes & service areas — shown on the Lanes page and the homepage map
+# =====================================================================
+#  Only list lanes and states RydeSmart actually runs or will accept.
+#
+#  coverage
+#    scope       "regional", "multi-regional", "nationwide" — or "" until confirmed
+#    summary     one sentence, e.g. "Southeast regional, with weekly runs to Texas."
+#    home_base   e.g. "Atlanta, GA"
+#    states      two-letter codes of states served, e.g. [GA, AL, TN, SC, NC, FL]
+#
+#  lanes (one block per origin → destination)
+#    origin / destination   "City, ST" — most major freight cities are known to the
+#                           map. For a city that isn't, add coords: [latitude, longitude]
+#                           e.g.  origin_coords: [33.75, -84.39]
+#    equipment              ids from equipment.yml
+#    frequency              e.g. "Weekly", "2–3× per week", "Spot"
+#    direction              "one-way" or "round-trip"
+#    notes                  short note brokers should know
+#    example: true          sample lane, shown only while show_placeholders is on
+# =====================================================================
+
+coverage:
+  scope: ""
+  summary: ""
+  home_base: ""
+  states: []
+
+corridors: []
+#  - name: I-85 corridor
+#    description: Atlanta ↔ Charlotte ↔ Greensboro
+
+lanes:
+  - origin: Atlanta, GA
+    destination: Charlotte, NC
+    equipment: [dry-van-53]
+    frequency: ""
+    direction: round-trip
+    notes: ""
+    example: true
+
+  - origin: Atlanta, GA
+    destination: Nashville, TN
+    equipment: [dry-van-53]
+    frequency: ""
+    direction: one-way
+    notes: ""
+    example: true
+
+  - origin: Atlanta, GA
+    destination: Jacksonville, FL
+    equipment: [dry-van-53]
+    frequency: ""
+    direction: one-way
+    notes: ""
+    example: true

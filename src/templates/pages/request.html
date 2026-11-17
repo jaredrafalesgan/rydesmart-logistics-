@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% block content %}
+{% call m.page_hero("Request capacity", "Request freight capacity or a quote", "Send us the lane, timing and freight details. We'll confirm equipment, availability and rate.") %}{% endcall %}
+
+    <section class="section">
+      <div class="container request">
+        <div class="form-card form-card--main">
+          {%- if integrations.ghl_forms.capacity %}
+          {{ m.ghl_frame(integrations.ghl_forms.capacity, "Freight capacity request form", 1300) }}
+          {%- else %}
+          {% call m.form_shell("capacity", "Send request") %}
+          <fieldset class="form-group">
+            <legend>Your contact information</legend>
+            <div class="form-grid">
+              {{ m.field("name", "Full name", required=True, autocomplete="name") }}
+              {{ m.field("company", "Company name", required=True, autocomplete="organization") }}
+              {{ m.field("email", "Business email", "email", required=True, autocomplete="email") }}
+              {{ m.field("phone", "Phone", "tel", required=True, autocomplete="tel") }}
+              {{ m.select("role", "I am a…", ["Freight broker", "Shipper", "Third-party logistics (3PL)", "Other"], required=True, span=True) }}
+            </div>
+          </fieldset>
+          <fieldset class="form-group">
+            <legend>Freight details</legend>
+            <div class="form-grid">
+              {{ m.field("origin", "Pickup location", required=True, placeholder="City, ST or ZIP") }}
+              {{ m.field("destination", "Delivery location", required=True, placeholder="City, ST or ZIP") }}
+              {{ m.field("pickup_date", "Pickup date", "date", required=True) }}
+              {{ m.select("equipment", "Equipment required", equipment_options, required=True) }}
+              {{ m.field("commodity", "Commodity", required=True, placeholder="e.g. Packaged food, auto parts") }}
+              {{ m.field("weight", "Estimated weight (lbs)", "text", placeholder="e.g. 38,000", attrs='inputmode="numeric"') }}
+              {{ m.field("dimensions", "Dimensions / pallet count", placeholder="e.g. 22 pallets, 48×40") }}
+              {{ m.select("frequency", "Load frequency", ["One-time / spot", "Weekly", "Multiple times per week", "Daily", "Not sure yet"]) }}
+              {{ m.field("requirements", "Additional requirements", "textarea", span=True, placeholder="Appointment times, hazmat, team, temperature, special handling…") }}
+              {{ m.field("message", "Message", "textarea", span=True) }}
+            </div>
+            <p class="field__hint">Have a rate confirmation, BOL or spec sheet? Email it to <a href="mailto:{{ dept_email('freight') }}">{{ dept_email('freight') }}</a> and include your reference number (shown after you submit).</p>
+          </fieldset>
+          {% endcall %}
+          {%- endif %}
+        </div>
+
+        <aside class="request__side">
+          <div class="side-card">
+            <h2>What happens next</h2>
+            <ol class="next-steps">
+              <li>We review your lane, dates and equipment.</li>
+              <li>We contact you to confirm availability and rate.</li>
+              <li>Once confirmed, we dispatch and keep you updated.</li>
+            </ol>
+          </div>
+          <div class="side-card side-card--dark">
+            <h2>Talk to dispatch</h2>
+            <ul class="contact-lines contact-lines--light">
+              <li>{{ m.icon("phone") }}<a href="tel:{{ company.phone_e164 }}">{{ company.phone }}</a></li>
+              <li>{{ m.icon("mail") }}<a href="mailto:{{ dept_email('freight') }}">{{ dept_email('freight') }}</a></li>
+              {%- if company.hours %}<li>{{ m.icon("clock") }}<span>{{ company.hours }}</span></li>{% endif %}
+            </ul>
+          </div>
+          <div class="side-card">
+            <h2>Setting us up?</h2>
+            <p>Our identifiers, FMCSA links and document requests are on one page.</p>
+            <a href="{{ url('broker-resources') }}" class="text-link">Broker &amp; shipper resources {{ m.icon("arrow") }}</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+{% endblock %}

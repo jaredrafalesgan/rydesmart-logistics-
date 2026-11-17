@@ -1,75 +1,65 @@
 # RydeSmart Logistics Website
 
-Marketing website for **RydeSmart Logistics** — *Driven by safety. Focused on delivery.*
+Carrier website for **RydeSmart Logistics** — *Driven by safety. Focused on delivery.*
+Built for freight brokers and shippers to verify the company, review equipment and lanes, and request
+capacity, plus CDL driver recruiting.
 
-A static, one-page site (HTML + CSS + a little JavaScript, no build step). The layout follows the
-service-business style of the Smart Decision Truck Repair site (contact top bar, bold hero with a call-to-action,
-services grid, "why choose us", stats, and a quote/contact form). The colors and type come from the
-RydeSmart logo: royal blue, deep navy, black and white, with bold italic headings and slanted buttons.
+**Status: preview.** Company facts that aren't confirmed yet show as *To be confirmed*. See
+[`docs/INFO-NEEDED.md`](docs/INFO-NEEDED.md) for the exact list.
 
-## View it
-Open `index.html` in a browser, or host the folder on GitHub Pages
-(Settings → Pages → Deploy from branch → root).
+## Pages
+Home · Fleet & equipment · Lanes & service areas · Broker & shipper resources · Request capacity · About ·
+Careers · Contact (+ 404). Paths: `/`, `/fleet`, `/lanes`, `/broker-resources`, `/request-capacity`,
+`/about`, `/careers`, `/contact`.
 
-## Files
-- `index.html` — page content
-- `css/styles.css` — styling (brand colors are at the top in `:root`)
-- `js/main.js` — mobile menu, quote forms, scroll animation
-- `js/vendor/` — GSAP 3.15.0 + ScrollTrigger (GSAP's free standard license)
-- `assets/` — logo variants (`logo.png`, white-text `logo-light.png` for dark backgrounds) and favicon
-- `assets/journey/` — background art for the truck scene (clouds, mountains, skyline, roadside, asphalt, shoulder)
-- `tools/build.py` — builds the single-file versions (see below)
+## Updating content (no design work needed)
+Edit the plain-text files in `content/`, then rebuild:
 
-## Scroll animation
-The **Why RydeSmart** section is a pinned, scroll-driven scene: while the visitor scrolls, a
-RydeSmart truck drives across a layered highway scene (parallax sky, mountains, roadside, road),
-and four panels appear in turn — Safety-First Drivers, Live Shipment Tracking (with a GPS route
-and location pin), Fully Insured Cargo and One Point of Contact — before the scene fades into
-**How It Works**. Everything is driven by scroll position (GSAP ScrollTrigger `pin` + `scrub`);
-nothing plays on its own.
+| File | What's in it |
+|---|---|
+| `content/company.yml` | Name, legal name, USDOT, MC, phone, email, address, hours, insurance limits, departments, leadership, form/CRM settings, **preview/launch switch** |
+| `content/equipment.yml` | Equipment cards (type, specs, freight, status, photo) |
+| `content/lanes.yml` | States served, corridors, preferred lanes (drawn on the map) |
+| `content/testimonials.yml` | Reviews — `verified: true` only for genuine, approved reviews |
+| `content/careers.yml` | Open positions, requirements, FAQ |
 
-- Timeline positions, truck stops and layer speeds are at the top of `truckJourney()` in `js/main.js`.
-- Phones get a shorter pin, a smaller truck with less travel, and stacked panels.
-- With *reduce motion* turned on (or if JavaScript/GSAP doesn't load) the section shows as a normal
-  static layout: headline, all four panels, and the truck parked on the road.
-- Other sections only get light entrance reveals and a slow drift on the careers banner.
+```bash
+pip install jinja2 pyyaml pillow     # once
+python3 tools/build.py               # rebuilds site/ and gohighlevel/
+```
+Set `show_placeholders: false` in `content/company.yml` to launch: placeholders, examples, sample reviews and
+the preview banner disappear, and search indexing turns on.
 
-## Testimonials carousel
-The **What Our Customers Say** section (between Industries and Drive With RydeSmart) is a slow,
-continuous right-to-left conveyor of review cards (`reviewsCarousel()` in `js/main.js`, no library).
-It loops without a visible jump, eases to a stop on hover or keyboard focus, and can be dragged or
-swiped; arrows, dots, arrow keys and a pause button give manual control. The centre card is full
-size and opacity, neighbours are slightly smaller and dimmer. With reduced motion it doesn't move
-on its own; without JavaScript it's a plain swipeable row.
+## Publishing
+- **GoHighLevel:** `gohighlevel/` has one file per page. Create a GHL page with the matching path, add a
+  Custom JS/HTML element, paste the file, set the section/row to full width with 0 padding, and copy the SEO
+  title/description from `gohighlevel/PAGES.md`.
+- **Any static host:** deploy the `site/` folder (Netlify, Cloudflare Pages, GitHub Pages via Actions).
 
-**The six testimonials are fictional placeholders.** Each card is marked `data-sample`. Replace
-them with verified customer testimonials (same markup: quote, name, title, city) before the site
-goes live.
+## Forms
+Capacity requests, document requests and contact messages validate input, show sending/success/error states,
+prevent duplicates and include a reference number, timestamp and lead source. Connect them to GoHighLevel with
+an Inbound Webhook or GHL forms — see [`docs/forms-setup.md`](docs/forms-setup.md). Until then they open the
+visitor's email app addressed to Admin@rydesmartlogistics.com. The CDL application uses the existing
+GoHighLevel form.
 
-The truck is an inline SVG illustration (so the wheels can turn and the lights can move). To use a
-real photo instead, replace the `<svg class="truck">` inside `.journey__truck` with a side-profile,
-transparent-background PNG/WebP of the truck facing right; the wheel-turn and light-sweep effects
-simply won't apply to a flat photo.
+## Project layout
+```
+content/         editable company data (YAML)
+src/templates/   page templates          src/css/  styles      src/js/  main.js + vendor/GSAP
+src/assets/      logos, scene art        src/data/ US map data
+tools/build.py   build script            tools/cities.py  map coordinates for lane cities
+site/            built website (deploy)  gohighlevel/     paste-in snippets per page
+docs/            audit, research, architecture, testing, roadmap, forms setup, info needed
+```
 
-## Contact info
-- Phone: (678) 315-8285
-- Email: Admin@rydesmartlogistics.com (quote forms go here; set in `QUOTE_EMAIL` in `js/main.js`)
-- CDL driver applications: "Apply Today" opens the GoHighLevel form (https://api.leadconnectorhq.com/widget/form/YwcIHknkQaS5F5jFNbB3) in a pop-up on the page (`.apply-modal` in `index.html`); without JavaScript it opens in a new tab
+## Documents
+1. [Audit of the previous site](docs/01-audit.md)
+2. [Research summary](docs/02-research.md)
+3. [Architecture & user journeys](docs/03-architecture.md)
+4. [Testing report](docs/04-testing.md)
+5. [Roadmap](docs/05-roadmap.md)
+- [Forms setup](docs/forms-setup.md) · [Company details needed](docs/INFO-NEEDED.md)
 
-## Placeholder info to replace before going live
-- USDOT / MC numbers in the footer
-- Stats (98% on-time, 48 states, 1 hr quote response), office hours and service list — confirm they're accurate
-- Testimonials — all six are samples (see below)
-
-The quote forms currently open the visitor's email app with the request filled in. To receive
-submissions directly, point the forms at a form service (e.g. Formspree or Netlify Forms).
-
-## Single-file versions
-After editing `index.html`, `css/` or `js/`, rebuild both with `python3 tools/build.py` (needs Pillow):
-
-- `gohighlevel/rydesmart-ghl.html` — paste-in snippet for a GoHighLevel **Custom JS/HTML** element.
-  Classes and ids are prefixed with `rs-` and the CSS only applies inside `<div id="rs-site">`, so it
-  won't clash with the page builder. It loads GSAP from jsDelivr at runtime, and stretches itself to
-  the full window width even inside a builder's centred row. In GoHighLevel, also set the section's
-  top/bottom padding to 0 so there's no white strip above or below the site.
-- `dist/rydesmart-logistics.html` — the full page with every asset (GSAP included) inlined.
+Third-party: GSAP 3.15.0 (GreenSock standard no-charge license), US state outlines from us-atlas (public domain,
+US Census data).

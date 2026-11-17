@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% block content %}
+{% call m.page_hero("Contact", "Contact " ~ company.name, "Reach the right person the first time — choose a department below or send us a message.") %}{% endcall %}
+
+    <section class="section">
+      <div class="container">
+        <ul class="depts">
+          {%- for d in departments %}
+          <li class="dept">
+            <h2>{{ d.label }}</h2>
+            <p>{{ d.blurb }}</p>
+            <a href="mailto:{{ d.email or company.email }}">{{ m.icon("mail") }} {{ d.email or company.email }}</a>
+            <a href="tel:{{ d.phone_e164 or company.phone_e164 }}">{{ m.icon("phone") }} {{ d.phone or company.phone }}</a>
+            {%- if d.key == 'freight' %}<a class="dept__cta" href="{{ url('request-capacity') }}">Request capacity {{ m.icon("arrow") }}</a>
+            {%- elif d.key == 'broker' %}<a class="dept__cta" href="{{ url('broker-resources') }}#documents">Request documents {{ m.icon("arrow") }}</a>
+            {%- elif d.key == 'drivers' %}<a class="dept__cta" href="{{ url('careers') }}">Driver application {{ m.icon("arrow") }}</a>{% endif %}
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--tint">
+      <div class="container request">
+        <div class="form-card form-card--main">
+          <h2 class="form-card__title">Send us a message</h2>
+          {%- if integrations.ghl_forms.contact %}
+          {{ m.ghl_frame(integrations.ghl_forms.contact, "Contact form") }}
+          {%- else %}
+          {% call m.form_shell("contact", "Send message") %}
+          <div class="form-grid">
+            {{ m.select("department", "Department", departments|map(attribute='label')|list, required=True, span=True) }}
+            {{ m.field("name", "Full name", required=True, autocomplete="name") }}
+            {{ m.field("company", "Company", autocomplete="organization") }}
+            {{ m.field("email", "Email", "email", required=True, autocomplete="email") }}
+            {{ m.field("phone", "Phone", "tel", autocomplete="tel") }}
+            {{ m.field("message", "Message", "textarea", required=True, span=True) }}
+          </div>
+          {% endcall %}
+          {%- endif %}
+        </div>
+        <aside class="request__side">
+          <div class="side-card">
+            <h2>Company details</h2>
+            <ul class="contact-lines">
+              <li>{{ m.icon("pin") }}<span>{{ m.tbc(address_line, "Business address to be confirmed") }}</span></li>
+              <li>{{ m.icon("phone") }}<a href="tel:{{ company.phone_e164 }}">{{ company.phone }}</a></li>
+              <li>{{ m.icon("mail") }}<a href="mailto:{{ company.email }}">{{ company.email }}</a></li>
+              {%- if company.hours or show_placeholders %}<li>{{ m.icon("clock") }}<span>{{ m.tbc(company.hours, "Business hours to be confirmed") }}</span></li>{% endif %}
+              {%- if company.after_hours %}<li>{{ m.icon("clock") }}<span>{{ company.after_hours }}</span></li>{% endif %}
+            </ul>
+          </div>
+          {%- if map_embed %}
+          <div class="side-card side-card--map">
+            <iframe title="Map of {{ address_line }}" src="{{ map_embed }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          {%- endif %}
+          <div class="side-card">
+            <h2>Credentials</h2>
+            <dl class="cred-list">
+              <div><dt>USDOT</dt><dd>{{ m.tbc(company.usdot, "pending") }}</dd></div>
+              <div><dt>MC</dt><dd>{{ m.tbc(company.mc, "pending") }}</dd></div>
+            </dl>
+            <a href="{{ url('broker-resources') }}" class="text-link">Verify with FMCSA {{ m.icon("arrow") }}</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+{% endblock %}

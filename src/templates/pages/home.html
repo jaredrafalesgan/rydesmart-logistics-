@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% block content %}
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="hero__bg" aria-hidden="true">
+        <svg class="hero__road" viewBox="0 0 800 600" preserveAspectRatio="xMidYMax slice">
+          <defs>
+            <linearGradient id="roadFade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#0a5ae0" stop-opacity="0"/>
+              <stop offset="1" stop-color="#0a5ae0" stop-opacity=".55"/>
+            </linearGradient>
+          </defs>
+          <path d="M360 0 L440 0 L800 600 L0 600 Z" fill="url(#roadFade)" opacity=".35"/>
+          <path d="M360 0 L0 600" stroke="#fff" stroke-opacity=".35" stroke-width="3" fill="none"/>
+          <path d="M440 0 L800 600" stroke="#fff" stroke-opacity=".35" stroke-width="3" fill="none"/>
+          <path class="hero__lane" d="M400 0 L400 600" stroke="#fff" stroke-width="6" stroke-dasharray="26 30" fill="none"/>
+        </svg>
+        <div class="hero__streaks"><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="eyebrow eyebrow--light">Freight transportation{% if company.home_base %} · {{ company.home_base }}{% endif %}</p>
+          <h1>Reliable freight.<br>Professional service.<br><span class="accent">Smarter logistics.</span></h1>
+          <p class="hero__lead">{{ company.name }} is committed to dependable transportation, professional communication, and building lasting relationships with freight partners.</p>
+          <div class="hero__actions">
+            <a href="{{ url('request-capacity') }}" class="btn btn--primary btn--lg"><span>Request Freight Capacity</span></a>
+            <a href="{{ url('fleet') }}" class="btn btn--ghost btn--lg"><span>Explore Our Fleet</span></a>
+          </div>
+          <p class="hero__call">Prefer to talk? <a href="tel:{{ company.phone_e164 }}">{{ m.icon("phone") }} {{ company.phone }}</a></p>
+        </div>
+
+        <aside class="snapshot" aria-labelledby="snapshot-title">
+          <p class="snapshot__eyebrow">{{ m.icon("shield") }} Carrier snapshot</p>
+          <h2 id="snapshot-title">{{ company.legal_name or company.name }}</h2>
+          {{ m.credential_list("cred-list--snapshot") }}
+          <div class="snapshot__actions">
+            <a href="{{ url('broker-resources') }}" class="btn btn--ghost btn--block"><span>Broker &amp; shipper resources</span></a>
+            {%- if company.usdot %}
+            <a href="{{ fmcsa.safer_dot }}" class="snapshot__verify" target="_blank" rel="noopener">Verify on FMCSA SAFER {{ m.icon("external") }}</a>
+            {%- endif %}
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===== Company introduction ===== -->
+    <section class="section intro">
+      <div class="container intro__grid">
+        <div>
+          <p class="eyebrow">Who we are</p>
+          <h2>A carrier that's easy to work with</h2>
+          <p class="intro__lead">{{ company.name }} moves freight for brokers and shippers who need a carrier that shows up, communicates and gets the paperwork right. We keep our process simple: confirm the details up front, keep you updated on the road, and close out every load cleanly.</p>
+          <a href="{{ url('about') }}" class="text-link">More about {{ company.name }} {{ m.icon("arrow") }}</a>
+        </div>
+        <ul class="commitments">
+          <li>{{ m.icon("check") }}<div><strong>Clear load confirmation</strong><span>Equipment, appointment times and rate confirmed before dispatch.</span></div></li>
+          <li>{{ m.icon("check") }}<div><strong>Proactive updates</strong><span>Status at pickup, in transit and delivery — without you having to chase it.</span></div></li>
+          <li>{{ m.icon("check") }}<div><strong>Clean paperwork</strong><span>Signed proof of delivery and accurate invoicing to close out each load.</span></div></li>
+          <li>{{ m.icon("check") }}<div><strong>One point of contact</strong><span>A dispatcher who knows your freight and answers the phone.</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Equipment overview ===== -->
+    <section class="section section--tint" id="equipment">
+      <div class="container">
+        <div class="section__head section__head--split">
+          <div>
+            <p class="eyebrow">Fleet &amp; equipment</p>
+            <h2>Equipment we run</h2>
+          </div>
+          <a href="{{ url('fleet') }}" class="text-link">View full fleet details {{ m.icon("arrow") }}</a>
+        </div>
+        {%- if equipment %}
+        <div class="equip-grid">
+          {%- for e in equipment[:3] %}{{ m.equipment_card(e) }}{% endfor %}
+        </div>
+        {%- else %}
+        <p class="empty-note">Equipment details are being updated. <a href="{{ url('contact') }}">Contact us</a> for current availability.</p>
+        {%- endif %}
+      </div>
+    </section>
+
+    <!-- ===== Lanes & coverage ===== -->
+    <section class="section" id="coverage">
+      <div class="container coverage">
+        <div class="coverage__copy">
+          <p class="eyebrow">Lanes &amp; service area</p>
+          <h2>Where we run</h2>
+          <p class="coverage__summary">{{ m.tbc(coverage.summary, "Service area summary to be confirmed") }}</p>
+          {%- if lanes %}
+          <ul class="lane-mini">
+            {%- for l in lanes[:4] %}
+            <li class="{{ 'is-example' if l.example }}" data-lane="{{ loop.index0 }}">
+              <span class="lane-mini__route">{{ l.origin }} <span aria-hidden="true">→</span><span class="sr-only">to</span> {{ l.destination }}</span>
+              {%- if l.example %}<span class="example-tag example-tag--inline">Example</span>{% elif l.frequency %}<span class="lane-mini__freq">{{ l.frequency }}</span>{% endif %}
+            </li>
+            {%- endfor %}
+          </ul>
+          {%- endif %}
+          <div class="coverage__actions">
+            <a href="{{ url('lanes') }}" class="btn btn--navy"><span>Lanes &amp; service areas</span></a>
+            <a href="{{ url('request-capacity') }}" class="text-link">Request capacity on a lane {{ m.icon("arrow") }}</a>
+          </div>
+        </div>
+        {{ m.coverage_map(small=True) }}
+      </div>
+    </section>
+
+    <!-- ===== Why work with RydeSmart: scroll-driven truck journey =====
+         Without JS (or with reduced motion) this renders as a static section. -->
+    <section class="journey" id="why" aria-labelledby="why-title">
+      <div class="journey__stage">
+{% include "partials/journey-scene.html" %}
+        <div class="container journey__content">
+          <div class="journey__intro">
+            <p class="eyebrow eyebrow--light">Why work with {{ company.name }}</p>
+            <h2 id="why-title">Driven by safety.<br><span class="accent">Focused on delivery.</span></h2>
+            <div class="journey__lead">
+              <p>Our motto isn't just on the logo. Every load is handled to one standard: picked up as scheduled, communicated clearly and delivered in the same condition it left.</p>
+              <a href="{{ url('request-capacity') }}" class="btn btn--primary"><span>Work With Us</span></a>
+            </div>
+          </div>
+          <ol class="journey__panels">
+            <li class="journey__panel">
+              <p class="journey__label"><span>01</span> Safety</p>
+              <h3>Safety-First Operations</h3>
+              <p>Pre-trip inspections, maintained equipment and careful driving on every load.</p>
+            </li>
+            <li class="journey__panel">
+              <p class="journey__label"><span>02</span> Updates</p>
+              <h3>Proactive Shipment Updates</h3>
+              <p>Status at pickup, in transit and at delivery, so you're never left chasing your freight.</p>
+            </li>
+            <li class="journey__panel">
+              <p class="journey__label"><span>03</span> Paperwork</p>
+              <h3>Carrier Documents on Request</h3>
+              <p>Carrier packet, W-9 and insurance certificate requests handled through our Broker Resources page.</p>
+            </li>
+            <li class="journey__panel">
+              <p class="journey__label"><span>04</span> Communication</p>
+              <h3>One Point of Contact</h3>
+              <p>Stay connected with one dispatch contact from pickup to delivery.</p>
+            </li>
+          </ol>
+          <p class="journey__hint" aria-hidden="true">Scroll to follow the delivery <svg viewBox="0 0 24 24"><path d="M12 16.5 5 9.5l1.4-1.4 5.6 5.6 5.6-5.6L19 9.5z"/></svg></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Process ===== -->
+    <section class="section" id="process">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">How it works</p>
+          <h2>From request to delivered in four steps</h2>
+        </div>
+        <ol class="steps">
+          <li class="step"><span class="step__num">01</span><h3>Send your load</h3><p>Lane, dates, equipment and commodity — by form, phone or email.</p></li>
+          <li class="step"><span class="step__num">02</span><h3>We confirm</h3><p>We check equipment and timing, then confirm rate and appointment before dispatch.</p></li>
+          <li class="step"><span class="step__num">03</span><h3>Pickup &amp; updates</h3><p>Your dispatcher keeps you posted at pickup, in transit and ahead of delivery.</p></li>
+          <li class="step"><span class="step__num">04</span><h3>Delivered &amp; closed out</h3><p>Signed proof of delivery and an accurate invoice, promptly.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== Broker verification preview ===== -->
+    <section class="verify-band">
+      <div class="container verify-band__inner">
+        <div>
+          <p class="eyebrow eyebrow--light">For brokers</p>
+          <h2>Verify us in under a minute</h2>
+          <p>Check our operating authority and safety record directly with FMCSA, then request our carrier packet.</p>
+          <dl class="verify-band__ids">
+            <div><dt>USDOT</dt><dd>{{ m.tbc(company.usdot, "pending") }}</dd></div>
+            <div><dt>MC</dt><dd>{{ m.tbc(company.mc, "pending") }}</dd></div>
+          </dl>
+        </div>
+        <div class="verify-band__actions">
+          {{ m.verify_links() }}
+          <a href="{{ url('broker-resources') }}#documents" class="btn btn--primary"><span>Request carrier packet</span></a>
+        </div>
+      </div>
+    </section>
+
+{% include "partials/testimonials.html" %}
+
+    <!-- ===== Careers teaser ===== -->
+    <section class="careers" id="careers">
+      <div class="careers__stripes" aria-hidden="true"></div>
+      <div class="container careers__inner">
+        <div>
+          <p class="eyebrow eyebrow--light">Now hiring CDL-A drivers</p>
+          <h2>Drive with {{ company.name }}</h2>
+          <p>Professional drivers who take safety seriously. See open positions and requirements.</p>
+        </div>
+        <div class="careers__btns">
+          {%- if integrations.ghl_forms.driver_application %}
+          <a href="{{ integrations.ghl_forms.driver_application }}" target="_blank" rel="noopener" class="btn btn--light btn--lg" data-driver-form><span>Apply Today</span></a>
+          {%- endif %}
+          <a href="{{ url('careers') }}" class="text-link text-link--light">Open positions {{ m.icon("arrow") }}</a>
+        </div>
+      </div>
+    </section>
+
+{% include "partials/final-cta.html" %}
+{% endblock %}

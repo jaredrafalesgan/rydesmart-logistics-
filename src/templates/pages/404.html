@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% block content %}
+{% call m.page_hero("Page not found", "We couldn't find that page", "It may have moved. Try one of these instead.", crumbs=False) %}
+    <div class="page-hero__actions">
+      <a href="{{ url('') }}" class="btn btn--primary"><span>Home</span></a>
+      <a href="{{ url('request-capacity') }}" class="btn btn--ghost"><span>Request capacity</span></a>
+      <a href="{{ url('contact') }}" class="btn btn--ghost"><span>Contact</span></a>
+    </div>
+{% endcall %}
+{% endblock %}

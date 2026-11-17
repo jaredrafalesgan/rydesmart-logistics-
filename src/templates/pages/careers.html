@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% block content %}
+{% call m.page_hero("Careers", "Drive with " ~ company.name, careers.intro) %}
+    {%- if integrations.ghl_forms.driver_application %}
+    <div class="page-hero__actions"><a href="{{ integrations.ghl_forms.driver_application }}" target="_blank" rel="noopener" class="btn btn--primary btn--lg" data-driver-form><span>Apply now</span></a><a href="tel:{{ company.phone_e164 }}" class="btn btn--ghost btn--lg"><span>Call recruiting</span></a></div>
+    {%- endif %}
+{% endcall %}
+
+    <section class="section">
+      <div class="container">
+        <div class="section__head section__head--split">
+          <div><p class="eyebrow">Open positions</p><h2>Driving opportunities</h2></div>
+        </div>
+        {%- if positions %}
+        <ul class="positions">
+          {%- for p in positions %}
+          <li class="position{{ ' is-example' if p.example }}">
+            <div class="position__head">
+              <h3>{{ p.title }}</h3>
+              {%- if p.example %}<span class="example-tag example-tag--inline">Example — confirm details</span>{% endif %}
+            </div>
+            <dl class="specs specs--row">
+              <div><dt>Type</dt><dd>{{ m.tbc(p.type) }}</dd></div>
+              <div><dt>Route</dt><dd>{{ m.tbc(p.route) }}</dd></div>
+              <div><dt>Equipment</dt><dd>{{ m.tbc(p.equipment) }}</dd></div>
+              <div><dt>Home time</dt><dd>{{ m.tbc(p.home_time) }}</dd></div>
+              {%- if p.pay or show_placeholders %}<div><dt>Pay</dt><dd>{{ m.tbc(p.pay) }}</dd></div>{% endif %}
+            </dl>
+            {%- if integrations.ghl_forms.driver_application %}
+            <a href="{{ integrations.ghl_forms.driver_application }}" target="_blank" rel="noopener" class="btn btn--primary" data-driver-form><span>Apply for this position</span></a>
+            {%- endif %}
+          </li>
+          {%- endfor %}
+        </ul>
+        {%- else %}
+        <p class="empty-note">No open positions listed right now — you can still apply and we'll keep your application on file.</p>
+        {%- endif %}
+      </div>
+    </section>
+
+    <section class="section section--tint">
+      <div class="container two-col">
+        <div>
+          <p class="eyebrow">Requirements</p>
+          <h2>What we look for</h2>
+          <ul class="ticks">{% for r in careers.requirements %}<li>{{ m.icon("check") }}{{ r }}</li>{% endfor %}</ul>
+          {%- if show_placeholders %}<p class="tbc tbc--block">Add your hiring requirements (experience, record, screening) in content/careers.yml.</p>{% endif %}
+        </div>
+        <div>
+          <p class="eyebrow">Working here</p>
+          <h2>What to expect</h2>
+          {%- if careers.what_to_expect %}
+          <ul class="ticks">{% for r in careers.what_to_expect %}<li>{{ m.icon("check") }}{{ r }}</li>{% endfor %}</ul>
+          {%- else %}
+          <p>{{ m.tbc("", "Equipment, schedule and benefits to be confirmed") }}</p>
+          {%- endif %}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section__head"><p class="eyebrow">How to apply</p><h2>Three steps</h2></div>
+        <ol class="steps steps--three">
+          <li class="step"><span class="step__num">01</span><h3>Apply online</h3><p>Complete the driver application — about 10 minutes.</p></li>
+          <li class="step"><span class="step__num">02</span><h3>Talk with us</h3><p>We review your application and call qualified drivers.</p></li>
+          <li class="step"><span class="step__num">03</span><h3>Screening &amp; start</h3><p>Required checks for commercial drivers, then orientation.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    {%- if integrations.ghl_forms.driver_application %}
+    <section class="section section--tint" id="apply">
+      <div class="container narrow">
+        <div class="section__head"><p class="eyebrow">Driver application</p><h2>Apply now</h2></div>
+        <div class="form-card">{{ m.ghl_frame(integrations.ghl_forms.driver_application, "CDL driver application form", 1100) }}</div>
+      </div>
+    </section>
+    {%- endif %}
+
+    {%- if faqs %}
+    <section class="section">
+      <div class="container narrow">
+        <div class="section__head"><p class="eyebrow">FAQ</p><h2>Driver questions</h2></div>
+        <div class="faq">
+          {%- for f in faqs %}
+          <details><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>
+          {%- endfor %}
+        </div>
+      </div>
+    </section>
+    {%- endif %}
+{% endblock %}

@@ -1,0 +1,102 @@
+# =====================================================================
+#  RydeSmart Logistics — company details used on every page
+# =====================================================================
+#  Edit this file, then run:  python3 tools/build.py
+#
+#  RULE: only enter information that is confirmed and accurate.
+#  Leave a value as "" when it isn't confirmed yet.
+#    - While show_placeholders is true, empty values appear on the site
+#      as "To be confirmed" so you can see what is still missing.
+#    - Set show_placeholders to false before launch: empty values are then
+#      hidden, and sample/example content (testimonials, lanes, equipment
+#      marked example: true) is removed from the site.
+# =====================================================================
+
+show_placeholders: true
+
+company:
+  name: RydeSmart Logistics             # brand name shown across the site
+  legal_name: ""                        # exactly as registered with FMCSA, e.g. "RydeSmart Logistics LLC"
+  dba: ""                               # "doing business as" name, if different
+  tagline: Driven by safety. Focused on delivery.
+  usdot: ""                             # USDOT number, digits only
+  mc: ""                                # MC (docket) number, digits only
+  phone: "(678) 315-8285"
+  phone_e164: "+16783158285"            # same number in +1XXXXXXXXXX form (used for tap-to-call)
+  email: Admin@rydesmartlogistics.com
+  address:
+    street: ""
+    city: ""
+    state: ""
+    zip: ""
+  home_base: ""                         # short form for headlines, e.g. "Atlanta, GA"
+  hours: ""                             # e.g. "Mon–Fri 7:00 AM – 6:00 PM ET"
+  after_hours: ""                       # e.g. "Dispatch reachable by phone after hours"
+  founded: ""                           # year, e.g. "2024"
+  primary_contact:
+    name: ""
+    title: ""                           # e.g. "Owner / Operations Manager"
+    email: ""
+    phone: ""
+
+# Insurance limits shown on the Broker Resources page. Enter only what your
+# certificate of insurance actually says. Documents themselves are never posted.
+insurance:
+  auto_liability: ""                    # e.g. "$1,000,000"
+  cargo: ""                             # e.g. "$100,000"
+  agent: ""                             # agency name (and phone) that issues certificates
+
+# Who handles what. Each department can have its own email/phone;
+# leave email/phone empty to use the main company email/phone.
+departments:
+  - key: freight
+    label: Freight & capacity
+    blurb: Rates, available capacity and new loads.
+    email: ""
+    phone: ""
+  - key: broker
+    label: Broker setup & documents
+    blurb: Carrier packets, W-9, insurance certificates.
+    email: ""
+    phone: ""
+  - key: drivers
+    label: Driver recruiting
+    blurb: CDL-A applications and driving opportunities.
+    email: ""
+    phone: ""
+  - key: general
+    label: General questions
+    blurb: Anything else.
+    email: ""
+    phone: ""
+
+# Leadership shown on the About page. Only add people who approved it.
+leadership: []
+#  - name: ""
+#    title: ""
+#    bio: ""
+#    photo: ""        # e.g. assets/team/name.jpg
+
+site:
+  url: https://www.rydesmartlogistics.com   # confirm: the live domain (used for SEO tags and the sitemap)
+  base_path: ""                             # leave "" when the site lives at the domain root
+  og_image: assets/og-image.png
+
+integrations:
+  # Built-in forms (capacity requests, document requests, contact) send here.
+  # Paste a GoHighLevel "Inbound Webhook" workflow trigger URL. See docs/forms-setup.md.
+  # While empty, the forms fall back to opening the visitor's email app with the details filled in.
+  inquiry_webhook_url: ""
+
+  # Optional: use a GoHighLevel form instead of a built-in form.
+  # Paste the form's link (Sites → Forms → Share → link). Leave "" to keep the built-in form.
+  ghl_forms:
+    capacity: ""
+    documents: ""
+    contact: ""
+    driver_application: https://api.leadconnectorhq.com/widget/form/YwcIHknkQaS5F5jFNbB3
+
+  # Where verified reviews live publicly, if any (Google Business Profile, etc.)
+  review_links: []
+  #  - label: Google reviews
+  #    url: ""

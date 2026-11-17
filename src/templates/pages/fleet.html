@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% import "macros.html" as m with context %}
+{% block content %}
+{% call m.page_hero("Fleet & equipment", "Our fleet and equipment", "What we run, what it hauls and what's available — so you can tell at a glance whether we fit your load.") %}{% endcall %}
+
+    <section class="section">
+      <div class="container">
+        <h2 class="sr-only">Equipment list</h2>
+        {%- if equipment %}
+        {%- if categories|length > 1 %}
+        <div class="filters" role="group" aria-label="Filter equipment by type" data-filter-group="fleet">
+          <button type="button" class="filter is-active" aria-pressed="true" data-filter="all">All equipment</button>
+          {%- for c in categories %}<button type="button" class="filter" aria-pressed="false" data-filter="{{ c }}">{{ c }}</button>{% endfor %}
+        </div>
+        {%- endif %}
+        <div class="equip-grid equip-grid--full" data-filter-target="fleet">
+          {%- for e in equipment %}{{ m.equipment_card(e, full=True) }}{% endfor %}
+        </div>
+        <p class="filters__empty" hidden>No equipment in this category right now.</p>
+        {%- else %}
+        <p class="empty-note">Our equipment list is being updated. Call <a href="tel:{{ company.phone_e164 }}">{{ company.phone }}</a> for current availability.</p>
+        {%- endif %}
+      </div>
+    </section>
+
+    <section class="section section--tint">
+      <div class="container split-cta">
+        <div>
+          <h2>Don't see what your load needs?</h2>
+          <p>Tell us the equipment, dimensions and timing. If we can't cover it, we'll tell you quickly.</p>
+        </div>
+        <a href="{{ url('request-capacity') }}" class="btn btn--primary btn--lg"><span>Request capacity</span></a>
+      </div>
+    </section>
+{% endblock %}
