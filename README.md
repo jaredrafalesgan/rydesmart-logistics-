@@ -30,6 +30,10 @@ python3 tools/build.py               # rebuilds site/ and gohighlevel/
 Set `show_placeholders: false` in `content/company.yml` to launch: placeholders, examples, sample reviews and
 the preview banner disappear, and search indexing turns on.
 
+## Preview file
+`python3 tools/build_preview.py` bundles all pages into one self-contained file,
+`preview/rydesmart-preview.html` (menu switches pages with `#fleet`, `#lanes`, …). Review only.
+
 ## Publishing
 - **GoHighLevel:** `gohighlevel/` has one file per page. Create a GHL page with the matching path, add a
   Custom JS/HTML element, paste the file, set the section/row to full width with 0 padding, and copy the SEO
